@@ -1,0 +1,47 @@
+document.addEventListener("DOMContentLoaded", function() {
+
+    // --- REVEAL ON SCROLL ANIMATION ---
+    const revealElements = document.querySelectorAll('.reveal');
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    revealElements.forEach(el => {
+        observer.observe(el);
+    });
+
+
+    // --- ANIMATE DASHBOARD CHART BARS ---
+    const chartBars = document.querySelectorAll('.chart-bar');
+    const chartContainer = document.querySelector('.dashboard-chart-container');
+    
+    const chartObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                chartBars.forEach((bar, index) => {
+                    setTimeout(() => {
+                        bar.style.height = bar.style.getPropertyValue('--height');
+                    }, index * 100);
+                });
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    if (chartContainer) {
+         chartObserver.observe(chartContainer);
+    }
+
+});
