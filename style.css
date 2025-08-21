@@ -1,47 +1,658 @@
-document.addEventListener("DOMContentLoaded", function() {
+/* ------------------- */
+/* VARIABLES & RESET   */
+/* ------------------- */
+:root {
+    --primary-green: #34A853;
+    --dark-blue: #0A2540;
+    --medium-gray: #525f7f;
+    --light-gray: #f6f9fc;
+    --border-gray: #e6ebf1;
+    --text-color: #333;
+    --background-color: #ffffff;
 
-    // --- REVEAL ON SCROLL ANIMATION ---
-    const revealElements = document.querySelectorAll('.reveal');
-
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    revealElements.forEach(el => {
-        observer.observe(el);
-    });
-
-
-    // --- ANIMATE DASHBOARD CHART BARS ---
-    const chartBars = document.querySelectorAll('.chart-bar');
-    const chartContainer = document.querySelector('.dashboard-chart-container');
+    --font-family: 'Be Vietnam Pro', sans-serif;
     
-    const chartObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                chartBars.forEach((bar, index) => {
-                    setTimeout(() => {
-                        bar.style.height = bar.style.getPropertyValue('--height');
-                    }, index * 100);
-                });
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
-    
-    if (chartContainer) {
-         chartObserver.observe(chartContainer);
+    --container-width: 1140px;
+    --border-radius: 8px;
+    --shadow: 0px 10px 30px rgba(0, 0, 0, 0.07);
+    --transition: all 0.3s ease-in-out;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    color: var(--text-color);
+    background-color: var(--background-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+section {
+    padding: 80px 0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ------------------- */
+/* ANIMATIONS          */
+/* ------------------- */
+.reveal {
+    opacity: 0;
+    /* On réduit la distance de translation pour un effet plus subtil */
+    transform: translateY(20px); 
+    /* On rend l'animation plus rapide et on utilise 'ease-in-out' pour un rendu plus doux */
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ------------------- */
+/* TYPOGRAPHIE & UTILS */
+/* ------------------- */
+h1, h2, h3 {
+    color: var(--dark-blue);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 48px;
+}
+
+h2 {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+p {
+    color: var(--medium-gray);
+    margin-bottom: 20px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.section-subtitle {
+    font-size: 18px;
+    color: var(--medium-gray);
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+}
+
+/* ------------------- */
+/* BOUTONS             */
+/* ------------------- */
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    transition: var(--transition);
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--primary-green);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2c8f45;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(52, 168, 83, 0.3);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--primary-green);
+    font-weight: 500;
+}
+
+.btn-secondary:hover {
+    color: var(--dark-blue);
+}
+
+/* ------------------- */
+/* HEADER              */
+/* ------------------- */
+.hero {
+    text-align: center;
+    padding: 100px 0;
+}
+
+.hero h1 {
+    max-width: 600px;
+    margin: 0 auto 20px auto;
+}
+
+.hero p {
+    max-width: 500px;
+    margin: 0 auto 30px auto;
+    font-size: 18px;
+}
+
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ------------------- */
+/* FEATURES SECTION    */
+/* ------------------- */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    text-align: left;
+}
+
+.feature-item {
+    padding: 20px;
+}
+
+.feature-item i {
+    font-size: 24px;
+    color: var(--primary-green);
+    margin-bottom: 15px;
+    background-color: var(--light-gray);
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.feature-item h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.feature-item p {
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+/* ------------------- */
+/* TECHNOLOGIE SECTION */
+/* ------------------- */
+/* ------------------- */
+/* TECHNOLOGIE SECTION (Nouveau Style) */
+/* ------------------- */
+
+#technologie {
+    /* On enlève le fond gris pour un look plus épuré comme dans votre image */
+    background-color: var(--background-color); 
+    padding: 100px 0; /* Un peu plus d'espace vertical */
+}
+
+/* La grille Flexbox qui crée les deux colonnes */
+.tech-grid {
+    display: flex;
+    align-items: center; /* Aligne verticalement le texte et l'image */
+    justify-content: space-between; /* Pousse les éléments de chaque côté */
+    gap: 60px; /* Espace entre le texte et l'image */
+}
+
+/* La colonne de gauche (texte) */
+.tech-text {
+    flex: 1; /* Prend l'espace disponible */
+    max-width: 450px; /* Empêche le texte de devenir trop large */
+    text-align: left; /* Aligne le texte à gauche */
+}
+
+.tech-text h2 {
+    font-size: 42px; /* Police plus grande et impactante */
+    text-align: left; /* Force l'alignement à gauche */
+    margin-bottom: 30px; /* Espace entre le titre et le bouton */
+}
+
+/* La colonne de droite (image) */
+.tech-image-wrapper {
+    flex: 1.5; /* Donne un peu plus d'espace à l'image */
+    text-align: center; /* Centre l'image si elle est plus petite que son conteneur */
+}
+
+.dashboard-img {
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    max-width: 100%;
+}
+
+/* --- Responsive pour les écrans plus petits --- */
+@media (max-width: 992px) {
+    .tech-grid {
+        flex-direction: column; /* Empile les colonnes verticalement */
+        text-align: center;
     }
 
-});
+    .tech-text {
+        text-align: center;
+        margin-bottom: 40px; /* Ajoute de l'espace sous le texte quand c'est empilé */
+    }
+
+    .tech-text h2 {
+        text-align: center;
+    }
+}
+
+
+
+/* ------------------- */
+/* POUR QUI SECTION    */
+/* ------------------- */
+.who-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.who-card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    border: 1px solid var(--border-gray);
+    /* 
+      Modification ici : On passe de 0.3s à 0.2s pour plus de réactivité.
+      Ceci n'affecte QUE l'animation de survol de ces cartes.
+    */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    will-change: transform, box-shadow;
+}
+
+.who-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow);
+    transition-delay: 0s !important;
+}
+
+.who-card i {
+    font-size: 36px;
+    color: var(--primary-green);
+    margin-bottom: 20px;
+}
+
+.who-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: var(--dark-blue);
+}
+
+.who-card p {
+    font-size: 15px;
+    color: var(--medium-gray);
+    margin-bottom: 0;
+}
+
+/* ------------------- */
+/* COMMENT CA MARCHE   */
+/* ------------------- */
+#process {
+    background-color: var(--light-gray);
+}
+
+.process-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    margin-top: 50px;
+}
+
+.process-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 25px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background-image: linear-gradient(to right, var(--border-gray) 50%, transparent 50%);
+    background-size: 16px 2px;
+    background-repeat: repeat-x;
+    z-index: 1;
+}
+
+.process-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 23%;
+    position: relative;
+    z-index: 2;
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #fff;
+    color: var(--primary-green);
+    border: 2px solid var(--primary-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 20px;
+    transition: var(--transition);
+}
+
+.process-step:hover .step-number {
+    background-color: var(--primary-green);
+    color: white;
+    transform: scale(1.1);
+}
+
+.process-step h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark-blue);
+}
+
+.grass-image-container {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.grass-image {
+    max-width: 300px;
+}
+
+/* ------------------- */
+/* FOOTER              */
+/* ------------------- */
+.footer {
+    padding: 40px 0;
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.footer-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--medium-gray);
+}
+
+.footer-item i {
+    color: var(--primary-green);
+}
+
+
+/* ------------------- */
+/* RESPONSIVE DESIGN   */
+/* ------------------- */
+@media (max-width: 992px) {
+    h1 { font-size: 38px; }
+    h2 { font-size: 30px; }
+    section { padding: 60px 0; }
+}
+
+@media (max-width: 768px) {
+    .hero-actions {
+        flex-direction: column;
+    }
+
+    .process-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .process-wrapper::before {
+        display: none; /* Hide connector on mobile */
+    }
+
+    .process-step {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 { font-size: 32px; }
+    h2 { font-size: 26px; }
+    
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Regle qui donne un espace de separation entre les differentes sections */
+
+#pour-qui {
+    margin-bottom: 80px; /* <-- C'est cette ligne qui ajoute l'espace */
+}
+
+/* ------------------- */
+/* COMMENT CA MARCHE (Mise à jour) */
+/* ------------------- */
+
+/* Ajustement pour 5 étapes au lieu de 4 */
+.process-step {
+    width: 19%; /* On réduit la largeur pour faire de la place */
+}
+
+/* Nouveau conteneur pour les images */
+.process-image-container {
+    margin-top: 50px;
+    position: relative; /* Indispensable pour positionner les images à l'intérieur */
+    max-width: 400px; /* Taille maximale de l'image */
+    height: 250px; /* Hauteur fixe pour éviter les sauts de page */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Style de base pour TOUTES les images dans le conteneur */
+.process-image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Assure que l'image est visible sans être déformée */
+    
+    /* L'animation de fondu */
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+
+/* Style pour l'image actuellement visible */
+.process-image-container img.active {
+    opacity: 1; /* La rend visible */
+}
+
+/* Ajustement de la ligne de connexion pour 5 étapes */
+.process-wrapper::before {
+    left: 8%;
+    right: 8%;
+}
+
+/* ▼▼▼ AJOUTEZ CE BLOC COMPLET À LA FIN DE VOTRE style.css ▼▼▼ */
+
+/* ------------------- */
+/* BARRE DE NAVIGATION */
+/* ------------------- */
+
+.navbar {
+    position: fixed; /* Fixe le menu en haut de la page */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* S'assure qu'il est au-dessus de tout */
+    padding: 15px 0;
+    
+    /* Effet "verre dépoli" très moderne */
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Pour la compatibilité Safari */
+    
+    border-bottom: 1px solid var(--border-gray);
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--primary-green);
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--dark-blue);
+    font-weight: 600;
+    font-size: 15px;
+    padding-bottom: 5px;
+    position: relative;
+}
+
+/* Soulignement subtil au survol */
+.nav-links a:not(.btn-nav)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-green);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:not(.btn-nav):hover::after {
+    width: 100%;
+}
+
+/* Style spécifique pour le bouton "Dashboard" */
+.btn-nav {
+    padding: 8px 20px;
+    background-color: var(--primary-green);
+    color: white !important;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.btn-nav:hover {
+    background-color: #2c8f45;
+    transform: translateY(-2px);
+}
+.btn-nav::after {
+    display: none; /* Pas de soulignement pour le bouton */
+}
+
+
+/* --- Styles pour le menu mobile (inspiré de Notion) --- */
+.nav-toggle {
+    display: none; /* Caché par défaut sur ordinateur */
+    cursor: pointer;
+}
+
+.nav-toggle .bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: var(--dark-blue);
+    transition: all 0.3s ease-in-out;
+}
+
+
+/* --- Responsive : Styles qui s'appliquent sur mobile/tablette --- */
+@media (max-width: 768px) {
+    .nav-toggle {
+        display: block; /* Affiche le bouton hamburger */
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Commence en dehors de l'écran */
+        width: 70%;
+        height: 100vh;
+        
+        /* Le look "Notion" */
+        background-color: var(--dark-blue);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        transition: right 0.4s ease-in-out;
+    }
+
+    .nav-links.active {
+        right: 0; /* Fait glisser le menu dans l'écran */
+    }
+
+    .nav-links a {
+        color: white; /* Texte blanc sur fond sombre */
+        font-size: 18px;
+    }
+
+    /* Animation du hamburger en croix (X) */
+    .nav-toggle.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .nav-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    .nav-toggle.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+}
+
+/* ▲▲▲ FIN DU BLOC CSS À AJOUTER ▲▲▲ */
+
