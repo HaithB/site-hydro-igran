@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Ligne - Hydro Igran Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css"> <!-- On utilise le même style.css -->
+</head>
+<body class="dashboard-body">
+    
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"></div>
+            <h1 class="logo-text">Hydro Igran</h1>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html"><i class="fa-solid fa-table-cells-large"></i> Vue Salle</a>
+            <a href="ligne.html" class="active"><i class="fa-solid fa-chart-simple"></i> Vue Ligne</a>
+            <a href="#"><i class="fa-solid fa-box"></i> Vue Bac</a>
+            <a href="#"><i class="fa-solid fa-bell"></i> Alertes</a>
+            <a href="#"><i class="fa-solid fa-arrow-trend-up"></i> Économie</a>
+        </nav>
+        <a href="#" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+    </aside>
+
+    <main class="main-content">
+        <header class="page-header">
+            <div class="header-title-container">
+                <h1>Vue Ligne</h1>
+                <select class="line-selector dropdown">
+                    <option value="1">Ligne 1</option>
+                    <option value="2">Ligne 2</option>
+                    <option value="3">Ligne 3</option>
+                    <option value="4">Ligne 4</option>
+                    <option value="5">Ligne 5</option>
+                </select>
+            </div>
+            <div class="header-actions">
+                <div class="header-item"><i class="fa-regular fa-bell"></i></div>
+                <div class="header-item user-profile">
+                    <img src="https://i.pravatar.cc/40?u=johndoe" alt="Avatar de l'utilisateur">
+                    <span>John Doe</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="dashboard-grid">
+            <!-- Ligne 1: Indicateurs clés -->
+            <article class="card">
+                <h3 class="card-title">Statut Actuel</h3>
+                <div class="status-indicator">
+                    <span class="status-dot status-ok"></span>
+                    <span class="status-text">En Croissance</span>
+                </div>
+            </article>
+            <article class="card">
+                <h3 class="card-title">Température</h3>
+                <p class="card-value">22.5<span class="unit"> °C</span></p>
+            </article>
+            <article class="card">
+                <h3 class="card-title">pH / EC</h3>
+                <p class="card-value">6.8<span class="unit"> / 1.2</span></p>
+            </article>
+            <article class="card">
+                <h3 class="card-title">Prochaine Récolte</h3>
+                <p class="card-value">31<span class="unit"> min</span></p>
+            </article>
+
+            <!-- Ligne 2: Graphiques détaillés -->
+            <article class="card large-chart-card">
+                <h3 class="card-title">Historique de Température (24h)</h3>
+                <div style="height: 250px;"><canvas id="temperatureChart"></canvas></div>
+            </article>
+            <article class="card large-chart-card">
+                <h3 class="card-title">Historique pH/EC (24h)</h3>
+                <div style="height: 250px;"><canvas id="phEcChart"></canvas></div>
+            </article>
+
+            <!-- Ligne 3: Informations et Logs -->
+            <article class="card" style="grid-column: span 2;">
+                <h3 class="card-title">Détails du Cycle Actuel</h3>
+                <ul class="cycle-details-list">
+                    <li><span>Type de semence</span><strong>Orge</strong></li>
+                    <li><span>Date de semis</span><strong>24/08/2025, 08:00</strong></li>
+                    <li><span>Durée du cycle</span><strong>7 jours</strong></li>
+                    <li><span>Rendement estimé</span><strong>~85 kg</strong></li>
+                </ul>
+            </article>
+            <article class="card" style="grid-column: span 2;">
+                <h3 class="card-title">Historique des Alertes (Ligne 1)</h3>
+                <ul>
+                     <li><div class="alert-info"><i class="fa-solid fa-circle status-icon color-blue"></i> Calibration pH effectuée</div><span>23/08, 14:00</span></li>
+                     <li><div class="alert-info"><i class="fa-solid fa-circle status-icon color-orange"></i> Température légèrement haute</div><span>22/08, 18:30</span></li>
+                     <li><div class="alert-info"><i class="fa-solid fa-circle status-icon color-green"></i> Cycle de nettoyage terminé</div><span>21/08, 10:00</span></li>
+                </ul>
+            </article>
+        </section>
+    </main>
+    
+    <script src="script.js"></script>
+</body>
+</html>

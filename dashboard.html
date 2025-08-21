@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Hydro Igran</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* ==========================================================================
+           1. CHARTE GRAPHIQUE & RESET (PROJET HYDRO IGRAN)
+           ========================================================================== */
+        :root {
+            --primary-green: #34A853;
+            --dark-blue: #0A2540;
+            --medium-gray: #525f7f;
+            --light-gray: #f6f9fc;
+            --border-gray: #e6ebf1;
+            --background-color: #ffffff;
+            --font-family: 'Be Vietnam Pro', sans-serif;
+            --border-radius: 8px;
+            --shadow: 0px 8px 25px rgba(0, 0, 0, 0.05);
+            --status-orange: #f39c12;
+            --status-red: #e74c3c;
+            --status-blue: #3498db;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            display: flex;
+        }
+
+        /* ==========================================================================
+           2. SIDEBAR (MENU LATÉRAL) - NOUVEAU DESIGN
+           ========================================================================== */
+        .sidebar {
+            width: 260px;
+            background-color: var(--dark-blue);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            height: 100vh;
+            position: fixed; left: 0; top: 0;
+            border-right: 1px solid #1a3a5a;
+        }
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 50px;
+            padding-left: 10px;
+        }
+        .sidebar-header .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+        }
+        .sidebar-header .logo-icon {
+            /* Remplacez par votre vrai logo SVG ou PNG */
+            width: 32px; height: 32px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23FFFFFF" d="M50,10 a40,40 0 0,1 0,80 a20,20 0 0,1 0,-40 a20,20 0 0,0 0,-40 Z"/></svg>');
+            background-size: contain;
+        }
+        .sidebar-nav { flex-grow: 1; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: #aeb8c4; /* Gris clair pour un meilleur contraste */
+            text-decoration: none;
+            padding: 14px 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 8px;
+            font-weight: 600;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .sidebar-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+        .sidebar-nav a.active {
+            background-color: var(--primary-green);
+            color: white;
+        }
+        .sidebar-nav a i { width: 22px; text-align: center; font-size: 1.1rem; }
+        .sidebar .logout { color: #aeb8c4; font-weight: 600; text-decoration: none; padding: 14px 20px; display: flex; align-items: center; gap: 16px; border-radius: var(--border-radius); transition: background-color 0.2s; }
+        .sidebar .logout:hover { background-color: rgba(255, 255, 255, 0.05); color: white; }
+        .sidebar .logout i { width: 22px; text-align: center; font-size: 1.1rem; }
+        
+        /* ==========================================================================
+           3. CONTENU PRINCIPAL & EN-TÊTE - NOUVEAU DESIGN
+           ========================================================================== */
+        .main-content {
+            margin-left: 260px;
+            flex-grow: 1;
+            padding: 32px;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-gray);
+        }
+        .page-header h1 { font-size: 28px; color: var(--dark-blue); }
+        .header-actions { display: flex; align-items: center; gap: 24px; }
+        .header-actions .header-item { display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--medium-gray); font-weight: 500; }
+        .header-actions .header-item i { font-size: 1.2rem; }
+        .header-actions .user-profile img { width: 40px; height: 40px; border-radius: 50%; }
+        
+        /* ==========================================================================
+           4. GRILLE DU DASHBOARD & STYLE DES CARTES - NOUVEAU DESIGN
+           ========================================================================== */
+        .dashboard-grid { display: grid; gap: 24px; grid-template-columns: repeat(4, 1fr); }
+
+        .card {
+            background-color: var(--background-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-gray);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+        .card-title { font-weight: 600; color: var(--medium-gray); font-size: 0.9rem; }
+        .card-value { font-size: 2.2rem; font-weight: 700; color: var(--dark-blue); }
+        .card-value .unit { font-size: 1.1rem; font-weight: 500; color: var(--medium-gray); }
+        
+        /* Styles spécifiques des cartes */
+        .stat-card-content { display: flex; justify-content: space-between; align-items: flex-start; }
+        .mini-chart { width: 120px; height: 50px; }
+        .gauge-chart-container { width: 90px; height: 90px; }
+        .performance-card .gauge-chart-container { width: 120px; height: 60px; }
+        .icon-card { flex-direction: row; justify-content: space-between; align-items: center; }
+        .icon-card .icon-wrapper {
+            width: 50px; height: 50px; border-radius: 50%;
+            background-color: rgba(52, 168, 83, 0.1);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--primary-green); font-size: 1.5rem;
+        }
+        .large-chart-card { grid-column: span 2; }
+        .dropdown {
+            border: 1px solid var(--border-gray); border-radius: 6px; padding: 6px 10px;
+            font-family: var(--font-family); font-weight: 500; background-color: #fff;
+        }
+        .chart-legend { display: flex; gap: 16px; justify-content: center; margin-top: 16px; font-size: 0.8rem; }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .legend-item .color-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+        .alert-card ul { list-style: none; display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+        .alert-card li { display: flex; align-items: center; justify-content: space-between; }
+        .alert-info { display: flex; align-items: center; gap: 12px; font-weight: 500; }
+        .alert-info .status-icon { font-size: 0.8rem; }
+        .alert-card .more-options { color: var(--medium-gray); }
+
+        .table-card { grid-column: span 2; }
+        .production-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        .production-table th, .production-table td { text-align: left; padding: 14px 4px; border-bottom: 1px solid var(--border-gray); font-size: 0.9rem; }
+        .production-table th { color: var(--medium-gray); font-weight: 600; text-transform: uppercase; font-size: 0.8rem; }
+        .production-table td { color: var(--dark-blue); font-weight: 500; }
+        .status-badge { padding: 4px 12px; border-radius: 12px; font-weight: 600; font-size: 0.8rem; color: #fff; text-align: center; }
+        .status-ok { background-color: var(--primary-green); }
+        .status-warn { background-color: var(--status-orange); }
+
+        .roi-card .cost-info { display: flex; align-items: baseline; justify-content: space-between; margin-top: 16px; }
+        .roi-card .secondary-cost { font-size: 1rem; color: var(--medium-gray); }
+        .roi-card .card-footer a { color: var(--primary-green); text-decoration: none; font-size: 0.9rem; margin-top: 12px; font-weight: 600; }
+        .roi-card .card-footer a:hover { text-decoration: underline; }
+        
+        .color-blue { color: var(--status-blue); }
+        .color-orange { color: var(--status-orange); }
+        .color-red { color: var(--status-red); }
+        .color-green { color: var(--primary-green); }
+        
+        /* ==========================================================================
+           5. RESPONSIVE DESIGN
+           ========================================================================== */
+        @media (max-width: 1200px) { .dashboard-grid { grid-template-columns: repeat(2, 1fr); } .large-chart-card, .table-card { grid-column: span 2; } }
+        @media (max-width: 992px) { .sidebar { transform: translateX(-100%); z-index: 1001; } .main-content { margin-left: 0; width: 100%; } }
+        @media (max-width: 768px) { .dashboard-grid { grid-template-columns: 1fr; } .large-chart-card, .table-card { grid-column: span 1; } .page-header { flex-direction: column; align-items: flex-start; gap: 16px; } }
+    </style>
+</head>
+<body class="dashboard-body">
+    
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"></div>
+            <h1 class="logo-text">Hydro Igran</h1>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="active"><i class="fa-solid fa-table-cells-large"></i> Vue Salle</a>
+            <a href="ligne.html"><i class="fa-solid fa-chart-simple"></i> Vue Ligne</a>
+            <a href="#"><i class="fa-solid fa-box"></i> Vue Bac</a>
+            <a href="#"><i class="fa-solid fa-bell"></i> Alertes</a>
+            <a href="#"><i class="fa-solid fa-arrow-trend-up"></i> Économie</a>
+        </nav>
+        <a href="#" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+    </aside>
+
+    <main class="main-content">
+        <header class="page-header">
+            <h1>Production Totale</h1>
+            <div class="header-actions">
+                <div class="header-item"><i class="fa-regular fa-bell"></i></div>
+                <div class="header-item"><span>Salle</span><i class="fa-solid fa-chevron-down fa-xs"></i></div>
+                <div class="header-item user-profile">
+                    <img src="https://i.pravatar.cc/40?u=johndoe" alt="Avatar de l'utilisateur">
+                    <span>John Doe</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="dashboard-grid">
+            <article class="card stat-card">
+                <div class="stat-card-content">
+                    <div>
+                        <h3 class="card-title">Production Totale</h3>
+                        <p class="card-value"><span class="counter" data-target="47">0</span><span class="unit"> kg/jour</span></p>
+                    </div>
+                    <div class="mini-chart"><canvas id="productionTotalChart"></canvas></div>
+                </div>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Taux d'Occupation</h3>
+                <div class="stat-card-content" style="align-items: center;">
+                    <p class="card-value"><span class="counter" data-target="85">0</span><span class="unit">%</span></p>
+                    <div class="gauge-chart-container"><canvas id="occupationGauge"></canvas></div>
+                </div>
+            </article>
+
+            <article class="card icon-card">
+                <div>
+                    <h3 class="card-title">Consommation Eau</h3>
+                    <p class="card-value"><span class="counter" data-target="12">0</span><span class="unit"> L/kg</span></p>
+                </div>
+                <div class="icon-wrapper"><i class="fa-solid fa-droplet"></i></div>
+            </article>
+
+            <article class="card">
+                 <h3 class="card-title">Performance</h3>
+                 <div class="stat-card-content" style="align-items: center;">
+                    <p class="card-value"><span class="counter" data-target="92">0</span><span class="unit">/100</span></p>
+                    <div class="performance-chart gauge-chart-container" style="height: 60px;"><canvas id="performanceGauge"></canvas></div>
+                 </div>
+            </article>
+
+            <article class="card large-chart-card">
+                <div class="card-header">
+                    <h3 class="card-title">Production des 30 derniers jours</h3>
+                    <div class="dropdown">12,7tior <i class="fa-solid fa-chevron-down fa-xs"></i></div>
+                </div>
+                <div style="height: 250px;"><canvas id="production30DaysChart"></canvas></div>
+            </article>
+            
+            <article class="card large-chart-card">
+                 <h3 class="card-title">Consommation eau/énergie par semaine</h3>
+                 <div style="height: 250px;"><canvas id="consommationChart"></canvas></div>
+                 <div class="chart-legend">
+                     <div class="legend-item"><span class="color-dot" style="background-color: var(--dark-blue);"></span> PÔME</div>
+                     <div class="legend-item"><span class="color-dot" style="background-color: var(--status-blue);"></span> Étiage</div>
+                     <div class="legend-item"><span class="color-dot" style="background-color: var(--primary-green);"></span> Énergie</div>
+                 </div>
+            </article>
+
+            <article class="card">
+                 <h3 class="card-title">Alertes & Monitoring</h3>
+                 <ul>
+                     <li><div class="alert-info"><i class="fa-solid fa-circle status-icon color-blue"></i> Niveau d'eau bas</div><i class="fa-solid fa-ellipsis more-options"></i></li>
+                     <li><div class="alert-info"><i class="fa-solid fa-circle status-icon color-orange"></i> Température élevée</div><i class="fa-solid fa-ellipsis more-options"></i></li>
+                     <li><div class="alert-info"><i class="fa-solid fa-circle status-icon color-red"></i> Maintenance requise</div><i class="fa-solid fa-ellipsis more-options"></i></li>
+                     <li><div class="alert-info"><i class="fa-solid fa-circle status-icon color-green"></i> Système opérationnel</div><i class="fa-solid fa-ellipsis more-options"></i></li>
+                 </ul>
+            </article>
+
+            <article class="card table-card">
+                 <h3 class="card-title">Lignes de production</h3>
+                 <table class="production-table">
+                     <thead><tr><th>Ligne</th><th>Statut</th><th>pH/EC</th><th>Température</th><th>Proch. Récolte</th></tr></thead>
+                     <tbody>
+                        <tr><td>Ligne 1</td><td><span class="status-badge status-ok">OK</span></td><td>6.8 %</td><td>22°C</td><td>31 min</td></tr>
+                        <tr><td>Ligne 2</td><td><span class="status-badge status-warn">Ajuster</span></td><td>3.5 %</td><td>28°C</td><td>40 min</td></tr>
+                        <tr><td>Ligne 3</td><td><span class="status-badge status-ok">OK</span></td><td>4.5 %</td><td>28°C</td><td>40 min</td></tr>
+                        <tr><td>Ligne 4</td><td><span class="status-badge status-warn">Ajuster</span></td><td>1.2 %</td><td>31°C</td><td>42 min</td></tr>
+                        <tr><td>Ligne 5</td><td><span class="status-badge status-ok">OK</span></td><td>0.8 %</td><td>32°C</td><td>38 min</td></tr>
+                     </tbody>
+                 </table>
+            </article>
+
+            <article class="card">
+                 <h3 class="card-title">Alertes & Monitoring</h3>
+                 <ul>
+                     <li><div class="alert-info"><i class="fa-solid fa-circle status-icon color-blue"></i> Vérification nutriments</div><i class="fa-solid fa-ellipsis more-options"></i></li>
+                     <li><div class="alert-info"><i class="fa-solid fa-circle status-icon color-orange"></i> Inspection pompe</div><i class="fa-solid fa-ellipsis more-options"></i></li>
+                     <li><div class="alert-info"><i class="fa-solid fa-circle status-icon color-green"></i> Cycle de nettoyage OK</div><i class="fa-solid fa-ellipsis more-options"></i></li>
+                 </ul>
+                 <h3 class="card-title" style="margin-top:24px;">Économie</h3>
+                 <div style="height: 80px;"><canvas id="economieChart"></canvas></div>
+            </article>
+
+            <article class="card roi-card">
+                 <h3 class="card-title">ROI</h3>
+                 <div style="height: 60px;"><canvas id="roiChart"></canvas></div>
+                 <div class="cost-info">
+                     <div>
+                        <h3 class="card-title">Coût / kg</h3>
+                        <p class="card-value" style="font-size: 1.8rem;">2,50 <span class="unit">€/kg</span></p>
+                     </div>
+                     <div class="secondary-cost">vs 4.20 €</div>
+                 </div>
+                 <div class="card-footer">
+                    <a href="#">Voir le détail <i class="fa-solid fa-arrow-right fa-xs"></i></a>
+                 </div>
+            </article>
+        </section>
+    </main>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const counters = document.querySelectorAll('.counter');
+        if (counters) { counters.forEach(counter => { const animate = () => { const target = +counter.getAttribute('data-target'); const count = +counter.innerText; const increment = target / 100; if (count < target) { counter.innerText = Math.ceil(count + increment); setTimeout(animate, 10); } else { counter.innerText = target; } }; animate(); }); }
+        
+        const chartFont = "'Be Vietnam Pro', sans-serif";
+        const primaryGreen = getComputedStyle(document.documentElement).getPropertyValue('--primary-green').trim();
+        const borderGray = getComputedStyle(document.documentElement).getPropertyValue('--border-gray').trim();
+        const mediumGray = getComputedStyle(document.documentElement).getPropertyValue('--medium-gray').trim();
+        const darkBlue = getComputedStyle(document.documentElement).getPropertyValue('--dark-blue').trim();
+        const statusBlue = getComputedStyle(document.documentElement).getPropertyValue('--status-blue').trim();
+
+        Chart.defaults.font.family = chartFont;
+        Chart.defaults.color = mediumGray;
+
+        const ctxProdTotal = document.getElementById('productionTotalChart')?.getContext('2d');
+        if(ctxProdTotal) new Chart(ctxProdTotal, { type: 'line', data: { labels: ['1', '2', '3', '4', '5', '6', '7'], datasets: [{ data: [10, 20, 15, 25, 30, 20, 47], borderColor: primaryGreen, borderWidth: 3, tension: 0.4, pointRadius: 0 }] }, options: { maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false } } } });
+        const ctxOccupation = document.getElementById('occupationGauge')?.getContext('2d');
+        if(ctxOccupation) new Chart(ctxOccupation, { type: 'doughnut', data: { datasets: [{ data: [85, 15], backgroundColor: [primaryGreen, borderGray], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: true, cutout: '80%', plugins: { legend: { display: false }, tooltip: { enabled: false } } } });
+        const ctxPerformance = document.getElementById('performanceGauge')?.getContext('2d');
+        if(ctxPerformance) new Chart(ctxPerformance, { type: 'doughnut', data: { datasets: [{ data: [92, 8], backgroundColor: [primaryGreen, borderGray], borderWidth: 0, circumference: 180, rotation: 270 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { display: false }, tooltip: { enabled: false } } } });
+        const ctxProd30 = document.getElementById('production30DaysChart')?.getContext('2d');
+        if(ctxProd30) { const gradient = ctxProd30.createLinearGradient(0, 0, 0, 250); gradient.addColorStop(0, 'rgba(52, 168, 83, 0.15)'); gradient.addColorStop(1, 'rgba(52, 168, 83, 0)'); new Chart(ctxProd30, { type: 'line', data: { labels: ['1s', '', '16s', '', '35s', '', '39s'], datasets: [{ label: 'Production', data: [500, 750, 1300, 1200, 2100, 2200, 2500], borderColor: primaryGreen, borderWidth: 3, tension: 0.4, pointRadius: 0, fill: true, backgroundColor: gradient }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: (v) => v >= 1000 ? (v / 1000) + 'k' : v }, grid: { drawBorder: false } }, x: { grid: { display: false } } } } }); }
+        const ctxConsommation = document.getElementById('consommationChart')?.getContext('2d');
+        if(ctxConsommation) new Chart(ctxConsommation, { type: 'bar', data: { labels: ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7'], datasets: [{ label: 'PÔME', data: [120, 190, 300, 500, 200, 300, 450], backgroundColor: darkBlue, borderRadius: 4, barPercentage: 0.6 }, { label: 'Étiage', data: [80, 120, 200, 300, 150, 220, 310], backgroundColor: statusBlue, borderRadius: 4, barPercentage: 0.6 }, { label: 'Energie', data: [60, 90, 150, 250, 110, 180, 260], backgroundColor: primaryGreen, borderRadius: 4, barPercentage: 0.6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { display: false }, x: { stacked: false, grid: { display: false } } } } });
+        const ctxEconomie = document.getElementById('economieChart')?.getContext('2d');
+        if(ctxEconomie) new Chart(ctxEconomie, { type: 'line', data: { labels: ['1', '2', '3', '4', '5', '6', '7'], datasets: [{ data: [30, 20, 40, 35, 50, 45, 60], borderColor: primaryGreen, borderWidth: 2, tension: 0.4, pointRadius: 0 }] }, options: { maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false } } } });
+        const ctxRoi = document.getElementById('roiChart')?.getContext('2d');
+        if(ctxRoi) new Chart(ctxRoi, { type: 'line', data: { labels: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin'], datasets: [{ data: [10, 20, 15, 25, 22, 30], borderColor: primaryGreen, borderWidth: 2, tension: 0.4, pointRadius: 0 }] }, options: { maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false } } } });
+    });
+    </script>
+</body>
+</html>

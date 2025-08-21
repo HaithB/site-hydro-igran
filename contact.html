@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nous Contacter - Hydro Igran</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="nav-logo">Hydro Igran</a>
+            <ul class="nav-links">
+                <li><a href="index.html">ACCUEIL</a></li>
+                <li><a href="story.html">NOTRE HISTOIRE</a></li>
+                <li><a href="contact.html" class="active">NOUS CONTACTER</a></li>
+                <li><a href="#" class="btn btn-nav">TABLEAU DE BORD</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <header class="contact-hero container">
+            <h1 class="reveal">Parlons de l'avenir de l'agriculture.</h1>
+            <p class="section-subtitle reveal" style="transition-delay: 0.1s;">
+                Que vous soyez agriculteur, investisseur, chercheur ou simplement curieux de notre démarche, nous serions ravis d'échanger avec vous.
+            </p>
+        </header>
+
+        <section class="contact-section container">
+            <div class="contact-grid">
+                
+                <!-- Colonne de gauche : Informations -->
+                <div class="contact-info reveal" style="transition-delay: 0.2s;">
+                    <h3>Entrons en contact</h3>
+                    <p>Utilisez le formulaire ou contactez-nous directement par email. Nous nous efforçons de répondre dans les 48 heures.</p>
+                    
+                    <div class="contact-info-block">
+                        <h4>Discussion générale</h4>
+                        <a href="mailto:hydroincubator062025@gmail.com" class="contact-link">hydroincubator062025@gmail.com</a>
+                    </div>
+                    
+                    <div class="contact-info-block">
+                        <h4>Partenariats & Pilotes</h4>
+                        <a href="mailto:hydroincubator062025@gmail.com" class="contact-link">hydroincubator062025@gmail.com</a>
+                    </div>
+                    
+                    <div class="contact-info-block">
+                        <h4>Suivez-nous</h4>
+                        <div class="contact-socials">
+                            <a href="#" aria-label="Profil LinkedIn"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" aria-label="Profil Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="Profil Instagram"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Colonne de droite : Formulaire -->
+                <div class="contact-form-wrapper reveal" style="transition-delay: 0.3s;">
+                    <form action="#" method="POST">
+                        <div class="form-group">
+                            <label for="name">Votre Nom</label>
+                            <input type="text" id="name" name="name" placeholder="Entrez votre nom complet" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Votre Email</label>
+                            <input type="email" id="email" name="email" placeholder="Entrez votre adresse email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Sujet</label>
+                            <input type="text" id="subject" name="subject" placeholder="Quel est l'objet de votre message ?" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="6" placeholder="Écrivez votre message ici..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary form-submit-btn">Envoyer le Message</button>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+    </main>
+    
+    <script src="script.js"></script>
+</body>
+</html>
