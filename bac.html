@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Bac - Hydro Igran Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="dashboard.css"> <!-- On utilise le même style.css -->
+</head>
+<body class="dashboard-body">
+    
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"></div>
+            <h1 class="logo-text">Hydro Igran</h1>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html"><i class="fa-solid fa-table-cells-large"></i> Vue Salle</a>
+            <a href="ligne.html"><i class="fa-solid fa-chart-simple"></i> Vue Ligne</a>
+            <a href="bac.html" class="active"><i class="fa-solid fa-box"></i> Vue Bac</a>
+            <a href="alertes.html"><i class="fa-solid fa-bell"></i> Alertes</a>
+            <a href="economie.html"><i class="fa-solid fa-arrow-trend-up"></i> Économie</a>
+        </nav>
+        <a href="#" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+    </aside>
+
+    <main class="main-content">
+        <header class="page-header">
+            <div class="header-title-container">
+                <h1>Vue Bac</h1>
+                <select class="line-selector dropdown">
+                    <option value="1">Ligne 1 - Bac 01</option>
+                    <option value="2">Ligne 1 - Bac 02</option>
+                    <option value="3">Ligne 2 - Bac 01</option>
+                    <!-- etc. -->
+                </select>
+            </div>
+            <div class="header-actions">
+                <div class="header-item"><i class="fa-regular fa-bell"></i></div>
+                <div class="header-item user-profile">
+                    <img src="https://i.pravatar.cc/40?u=johndoe" alt="Avatar de l'utilisateur">
+                    <span>John Doe</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="bac-grid">
+            <!-- Colonne de gauche: Infos du bac -->
+            <article class="card bac-details-card">
+                <div class="bac-photo">
+                    <!-- Remplacer par une vraie image du bac plus tard -->
+                    <i class="fa-solid fa-seedling"></i>
+                </div>
+                <div class="bac-info">
+                    <h3>Bac 01 (Ligne 1)</h3>
+                    <div class="status-indicator">
+                        <span class="status-dot status-ok"></span>
+                        <span class="status-text">En Croissance</span>
+                    </div>
+                    <ul class="cycle-details-list">
+                        <li><span>Âge du cycle</span><strong>Jour 4 / 7</strong></li>
+                        <li><span>Poids estimé</span><strong>3.2 kg</strong></li>
+                        <li><span>Humidité substrat</span><strong>85%</strong></li>
+                        <li><span>Température locale</span><strong>22.1 °C</strong></li>
+                    </ul>
+                </div>
+            </article>
+
+            <!-- Colonne de droite: Journal d'événements -->
+            <article class="card bac-log-card">
+                <h3 class="card-title">Journal d'Événements</h3>
+                <ul class="bac-log-list">
+                    <li class="log-entry">
+                        <div class="log-icon" style="background-color: rgba(52, 152, 219, 0.1); color: var(--status-blue);"><i class="fa-solid fa-faucet-drip"></i></div>
+                        <div class="log-details">
+                            <p class="log-text">Cycle d'arrosage automatique terminé.</p>
+                            <small class="log-timestamp">Aujourd'hui, 14:00</small>
+                        </div>
+                    </li>
+                    <li class="log-entry">
+                        <div class="log-icon" style="background-color: rgba(52, 168, 83, 0.1); color: var(--primary-green);"><i class="fa-solid fa-check"></i></div>
+                        <div class="log-details">
+                            <p class="log-text">Inspection visuelle : croissance normale.</p>
+                            <small class="log-timestamp">Aujourd'hui, 09:15</small>
+                        </div>
+                    </li>
+                    <li class="log-entry">
+                        <div class="log-icon" style="background-color: rgba(243, 156, 18, 0.1); color: var(--status-orange);"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div class="log-details">
+                            <p class="log-text">Alerte : Humidité légèrement basse (82%).</p>
+                            <small class="log-timestamp">Hier, 21:30</small>
+                        </div>
+                    </li>
+                     <li class="log-entry">
+                        <div class="log-icon" style="background-color: var(--light-gray); color: var(--medium-gray);"><i class="fa-solid fa-play"></i></div>
+                        <div class="log-details">
+                            <p class="log-text">Début du cycle de production (semis d'orge).</p>
+                            <small class="log-timestamp">Il y a 4 jours</small>
+                        </div>
+                    </li>
+                </ul>
+            </article>
+        </section>
+    </main>
+    
+    <script src="script.js"></script>
+</body>
+</html>

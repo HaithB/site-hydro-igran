@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alertes - Hydro Igran Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="dashboard.css"> <!-- On utilise le CSS du dashboard -->
+</head>
+<body>
+    
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"></div>
+            <h1 class="logo-text">Hydro Igran</h1>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html"><i class="fa-solid fa-table-cells-large"></i> Vue Salle</a>
+            <a href="ligne.html"><i class="fa-solid fa-chart-simple"></i> Vue Ligne</a>
+            <a href="bac.html"><i class="fa-solid fa-box"></i> Vue Bac</a>
+            <a href="alertes.html" class="active"><i class="fa-solid fa-bell"></i> Alertes</a>
+            <a href="economie.html"><i class="fa-solid fa-arrow-trend-up"></i> Économie</a>
+        </nav>
+        <a href="#" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+    </aside>
+
+    <main class="main-content">
+        <header class="page-header">
+            <h1>Centre d'Alertes</h1>
+            <div class="header-actions">
+                <div class="filter-group">
+                    <label for="filter-type">Filtrer par type :</label>
+                    <select id="filter-type" class="dropdown">
+                        <option value="all">Toutes</option>
+                        <option value="critical">Critiques</option>
+                        <option value="warning">Avertissements</option>
+                        <option value="info">Infos</option>
+                    </select>
+                </div>
+                 <div class="header-item user-profile">
+                    <img src="https://i.pravatar.cc/40?u=johndoe" alt="Avatar de l'utilisateur">
+                    <span>John Doe</span>
+                </div>
+            </div>
+        </header>
+
+        <section>
+            <h2 class="section-title">Alertes Actives (Nécessitant une action)</h2>
+            <div class="alerts-grid">
+                <div class="alert-card critical">
+                    <div class="alert-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="alert-content">
+                        <h4>Maintenance requise sur la pompe</h4>
+                        <p>La pression de la pompe de la Ligne 2 est anormalement basse. Une inspection est nécessaire.</p>
+                        <small>Il y a 2 heures</small>
+                    </div>
+                    <div class="alert-actions">
+                        <button class="btn-alert">Marquer comme résolu</button>
+                    </div>
+                </div>
+                <div class="alert-card warning">
+                    <div class="alert-icon"><i class="fa-solid fa-temperature-half"></i></div>
+                    <div class="alert-content">
+                        <h4>Température élevée</h4>
+                        <p>La température dans le Bac 03 de la Ligne 4 a dépassé le seuil recommandé (29°C).</p>
+                        <small>Il y a 45 minutes</small>
+                    </div>
+                    <div class="alert-actions">
+                         <button class="btn-alert">Marquer comme résolu</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Historique des Événements</h2>
+            <div class="card">
+                <table class="events-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Source</th>
+                            <th>Date & Heure</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><i class="fa-solid fa-circle color-red"></i> Critique</td>
+                            <td>Maintenance requise sur la pompe</td>
+                            <td>Ligne 2</td>
+                            <td>Aujourd'hui, 12:15</td>
+                            <td><span class="status-badge status-warn">Actif</span></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-solid fa-circle color-orange"></i> Avert.</td>
+                            <td>Température élevée</td>
+                            <td>Ligne 4 - Bac 03</td>
+                            <td>Aujourd'hui, 13:30</td>
+                            <td><span class="status-badge status-warn">Actif</span></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-solid fa-circle color-blue"></i> Info</td>
+                            <td>Calibration pH effectuée</td>
+                            <td>Ligne 1</td>
+                            <td>Hier, 14:00</td>
+                            <td><span class="status-badge status-ok">Résolu</span></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-solid fa-circle color-green"></i> Système</td>
+                            <td>Cycle de nettoyage terminé</td>
+                            <td>Système</td>
+                            <td>Hier, 10:00</td>
+                            <td><span class="status-badge status-ok">Résolu</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    
+    <script src="script.js"></script>
+</body>
+</html>

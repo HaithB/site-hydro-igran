@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Économie - Hydro Igran Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/dashboard.js"></script>
+    <link rel="stylesheet" href="dashboard.css"> <!-- On utilise le CSS du dashboard -->
+</head>
+<body>
+    
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"></div>
+            <h1 class="logo-text">Hydro Igran</h1>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html"><i class="fa-solid fa-table-cells-large"></i> Vue Salle</a>
+            <a href="ligne.html"><i class="fa-solid fa-chart-simple"></i> Vue Ligne</a>
+            <a href="bac.html"><i class="fa-solid fa-box"></i> Vue Bac</a>
+            <a href="alertes.html"><i class="fa-solid fa-bell"></i> Alertes</a>
+            <a href="economie.html" class="active"><i class="fa-solid fa-arrow-trend-up"></i> Économie</a>
+        </nav>
+        <a href="#" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+    </aside>
+
+    <main class="main-content">
+        <header class="page-header">
+            <h1>Analyse Économique</h1>
+            <div class="header-actions">
+                <div class="filter-group">
+                    <label for="filter-period">Période :</label>
+                    <select id="filter-period" class="dropdown">
+                        <option value="monthly">Ce Mois</option>
+                        <option value="yearly">Cette Année</option>
+                        <option value="all">Depuis le début</option>
+                    </select>
+                </div>
+                 <div class="header-item user-profile">
+                    <img src="https://i.pravatar.cc/40?u=johndoe" alt="Avatar de l'utilisateur">
+                    <span>John Doe</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="dashboard-grid">
+            <!-- Indicateurs Clés -->
+            <article class="card">
+                <h3 class="card-title">Coût Actuel / kg</h3>
+                <p class="card-value">2,50<span class="unit"> €</span></p>
+                <small class="card-comparison down">▼ 0.12€ vs mois dernier</small>
+            </article>
+             <article class="card">
+                <h3 class="card-title">Coût Aliment Traditionnel / kg</h3>
+                <p class="card-value">4,20<span class="unit"> €</span></p>
+                <small class="card-comparison">Prix marché actuel</small>
+            </article>
+            <article class="card highlight">
+                <h3 class="card-title">Économies Réalisées (ce mois)</h3>
+                <p class="card-value">850<span class="unit"> €</span></p>
+                <small class="card-comparison">Basé sur 500kg produits</small>
+            </article>
+             <article class="card">
+                <h3 class="card-title">Retour sur Investissement (ROI)</h3>
+                <p class="card-value">12<span class="unit"> %</span></p>
+                <small class="card-comparison">Projeté sur 12 mois</small>
+            </article>
+
+            <!-- Graphiques -->
+            <article class="card large-chart-card">
+                <h3 class="card-title">Évolution du Coût par kg</h3>
+                <div style="height: 250px;"><canvas id="costEvolutionChart"></canvas></div>
+            </article>
+            <article class="card large-chart-card">
+                <h3 class="card-title">Économies Cumulées par Mois</h3>
+                <div style="height: 250px;"><canvas id="savingsChart"></canvas></div>
+            </article>
+
+            <!-- Simulateur -->
+            <article class="card" style="grid-column: span 4;">
+                <h3 class="card-title">Simulateur de Rentabilité</h3>
+                <div class="simulator-grid">
+                    <div class="form-group">
+                        <label for="sim-production">Production mensuelle (kg)</label>
+                        <input type="number" id="sim-production" value="500">
+                    </div>
+                    <div class="form-group">
+                        <label for="sim-cost">Coût aliment traditionnel (€/kg)</label>
+                        <input type="number" id="sim-cost" value="4.20">
+                    </div>
+                    <div class="simulator-result">
+                        <p>Économies mensuelles projetées</p>
+                        <strong id="sim-result">850 €</strong>
+                    </div>
+                </div>
+            </article>
+
+        </section>
+    </main>
+    
+    <script src="script.js"></script>
+</body>
+</html>
