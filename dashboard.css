@@ -120,3 +120,762 @@ body {
 @media (max-width: 1200px) { .dashboard-grid { grid-template-columns: repeat(2, 1fr); } .large-span-1, .large-span-3 { grid-column: span 1; } .large-span-2, .table-card { grid-column: span 2; } }
 @media (max-width: 992px) { .sidebar { transform: translateX(-100%); } .sidebar.is-open { transform: translateX(0); } .sidebar-overlay.is-active { display: block; } .main-content { margin-left: 0; } .mobile-menu-toggle { display: block; } }
 @media (max-width: 768px) { .dashboard-grid { grid-template-columns: 1fr; } .large-span-1, .large-span-2, .large-span-3 { grid-column: span 1; } .hero-header { flex-wrap: wrap; } .main-title { width: 100%; order: 1; margin-bottom: 20px; } .mobile-menu-toggle { order: 2; } .header-actions { order: 3; } .main-kpi .kpi-value { font-size: 4rem; } }
+
+/* ==========================================================================
+   CSS ADDITIF - PAGE VUE LIGNE
+   ========================================================================== */
+
+/* --- Nouvelle Grille de Mise en Page --- */
+.line-view-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    align-items: flex-start;
+}
+.main-growth-card {
+    grid-row: span 2; /* Fait en sorte que la carte principale prenne 2 rangées de hauteur */
+}
+.right-column-grid {
+    display: grid;
+    gap: 24px;
+    grid-template-rows: auto 1fr;
+}
+.line-view-grid > .card:not(.main-growth-card) {
+    grid-column: span 3; /* Les autres cartes prennent toute la largeur */
+}
+.line-view-grid > .right-column-grid {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+}
+
+/* --- Style de la carte principale --- */
+.main-growth-card .chart-container {
+    height: 400px;
+}
+.current-age {
+    font-weight: 600;
+    color: var(--primary-green);
+    background-color: rgba(52, 168, 83, 0.1);
+    padding: 6px 12px;
+    border-radius: 99px;
+    font-size: 0.9rem;
+}
+
+/* --- Style des listes et grilles de données --- */
+.details-list {
+    list-style: none;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.details-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+}
+.details-list span {
+    color: var(--medium-gray);
+}
+.details-list strong {
+    color: var(--dark-blue);
+    font-weight: 600;
+}
+.conditions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+}
+.data-point-small i { color: var(--primary-green); font-size: 1.1rem; }
+.data-point-small strong { font-size: 0.8rem; color: var(--medium-gray); display: block; }
+.data-point-small span { font-size: 1.2rem; font-weight: 600; color: var(--dark-blue); }
+
+.ressources-line-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-top: 16px;
+}
+.ressources-line-grid > div {
+    background-color: var(--light-gray);
+    padding: 16px;
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+.ressources-line-grid span { display: block; font-weight: 500; color: var(--medium-gray); font-size: 0.8rem; margin-bottom: 8px; }
+.ressources-line-grid i { margin-right: 4px; }
+.ressources-line-grid strong { font-size: 1.5rem; font-weight: 700; color: var(--dark-blue); }
+
+.health-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 24px;
+    margin-top: 16px;
+}
+.health-item { text-align: center; }
+.health-label { font-weight: 600; color: var(--medium-gray); margin-bottom: 12px; }
+.health-gauge-container { position: relative; width: 80px; height: 80px; margin: 0 auto; display: grid; place-items: center; }
+.health-gauge-container span { font-size: 1.2rem; font-weight: 700; color: var(--dark-blue); }
+.health-gauge { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(var(--primary-green) calc(var(--value) * 1%), var(--border-gray) 0); }
+.health-gauge.reverse { background: conic-gradient(var(--status-orange) calc(var(--value) * 1%), var(--border-gray) 0); }
+.health-status { margin-top: 8px; font-weight: 600; }
+.health-status.low { color: var(--primary-green); }
+.health-status.high { color: var(--primary-green); }
+.last-op { font-size: 1.2rem; margin-top: 1rem; color: var(--medium-gray); }
+.last-op strong { color: var(--dark-blue); }
+
+/* --- Responsive pour Vue Ligne --- */
+@media (max-width: 1200px) {
+    .line-view-grid {
+        grid-template-columns: 1fr;
+    }
+    .main-growth-card {
+        grid-row: auto;
+    }
+    .line-view-grid > .right-column-grid {
+        grid-column: 1;
+        grid-row: auto;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media (max-width: 768px) {
+    .line-view-grid > .right-column-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
+   CSS ADDITIF - AMÉLIORATION HEADER VUE LIGNE
+   ========================================================================== */
+
+/* --- Structure cohérente du Header pour toutes les pages --- */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px; /* Ajoute un espacement de sécurité */
+}
+
+.header-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-shrink: 0; /* Empêche le titre de se compresser */
+}
+
+/* --- Sélecteur de Ligne Soigné --- */
+.line-selector-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.line-selector-wrapper i {
+    position: absolute;
+    left: 12px;
+    color: var(--medium-gray);
+    font-size: 0.9rem;
+    pointer-events: none; /* Permet de cliquer à travers l'icône */
+}
+
+.dropdown-line-selector {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-gray);
+    border-radius: 8px;
+    padding: 10px 12px 10px 36px; /* Espace pour l'icône à gauche */
+    font-family: var(--font-family);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--dark-blue);
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23667085' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.dropdown-line-selector:hover {
+    border-color: var(--primary-green);
+}
+
+.dropdown-line-selector:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(52, 168, 83, 0.2);
+}
+
+/* ==========================================================================
+   CSS ADDITIF - AJOUT D'ESPACEMENT SUR VUE LIGNE
+   ========================================================================== */
+
+/* Ajoute une marge en bas du header pour le séparer du contenu */
+.page-header {
+    margin-bottom: 32px;
+}
+
+/* Ajoute un espacement au-dessus de la grille principale de la Vue Ligne */
+.line-view-grid {
+    margin-top: 32px;
+}
+
+/* ==========================================================================
+   CSS ADDITIF - BLOCS TECHNIQUES VUE LIGNE
+   ========================================================================== */
+
+/* --- Carte "État des Réservoirs" --- */
+.tank-status-grid {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.tank-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.tank-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 120px; /* Aligne les barres de progression */
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--medium-gray);
+}
+.tank-label i {
+    width: 16px;
+    text-align: center;
+    color: var(--primary-green);
+}
+.tank-item .progress-bar-container {
+    width: 100%;
+}
+
+/* --- Carte "Valeurs Globales" --- */
+.global-values-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+    margin-top: 16px;
+}
+.global-value-item span {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--medium-gray);
+    margin-bottom: 8px;
+}
+.global-value-item strong {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--dark-blue);
+}
+
+/* --- Carte "Journal d'Événements" --- */
+.event-log {
+    list-style: none;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 220px;
+    overflow-y: auto;
+}
+.event-log li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.event-icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background-color: var(--light-gray);
+    color: var(--medium-gray);
+}
+.event-icon.alert {
+    background-color: #fef3c7; /* Jaune d'alerte pâle */
+    color: var(--status-orange);
+}
+.event-details p {
+    font-weight: 500;
+    color: var(--dark-blue);
+}
+.event-details small {
+    color: var(--medium-gray);
+    font-size: 0.8rem;
+}
+
+/* ==========================================================================
+   CSS ADDITIF - PAGE VUE BAC
+   ========================================================================== */
+
+/* --- Nouvelle Grille de Mise en Page --- */
+.bac-view-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 24px;
+    align-items: flex-start;
+}
+.bac-main-card {
+    grid-row: span 2; /* Fait en sorte que la carte principale prenne 2 rangées */
+    padding: 0;
+    overflow: hidden; /* Pour que les coins arrondis s'appliquent à l'image */
+}
+.bac-log-card {
+    grid-column: 2;
+    grid-row: 1 / span 3; /* Prend toute la hauteur de la colonne droite */
+}
+
+/* --- Fiche principale du Bac --- */
+.bac-photo {
+    height: 200px;
+    background-image: var(--green-glow);
+    display: grid;
+    place-items: center;
+    font-size: 80px;
+    color: white;
+}
+.bac-info {
+    padding: 24px;
+}
+.bac-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+.bac-header h3 {
+    font-size: 1.5rem;
+    color: var(--dark-blue);
+}
+.details-list .separator {
+    height: 1px;
+    background-color: var(--border-gray);
+    margin: 12px 0;
+}
+
+/* --- Carte Microclimat --- */
+.microclimate-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 16px;
+}
+
+/* --- Timeline Créative du Journal --- */
+.bac-log-timeline {
+    list-style: none;
+    margin-top: 24px;
+    position: relative;
+    padding-left: 20px;
+}
+.bac-log-timeline::before {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 5px;
+    bottom: 5px;
+    width: 2px;
+    background-color: var(--border-gray);
+}
+.log-entry {
+    position: relative;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+.log-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background-color: var(--light-gray);
+    color: var(--medium-gray);
+    border: 2px solid var(--background-color);
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+}
+.log-icon.alert {
+    background-color: #FEF3C7; /* Jaune pâle */
+    color: var(--status-orange);
+}
+.log-details p {
+    font-weight: 500;
+    color: var(--dark-blue);
+    line-height: 1.4;
+}
+.log-details small {
+    color: var(--medium-gray);
+    font-size: 0.8rem;
+}
+
+/* --- Responsive pour Vue Bac --- */
+@media (max-width: 992px) {
+    .bac-view-grid {
+        grid-template-columns: 1fr;
+    }
+    .bac-main-card,
+    .bac-log-card {
+        grid-row: auto;
+        grid-column: auto;
+    }
+}
+
+/* ==========================================================================
+   CSS ADDITIF - ENRICHISSEMENT VUE BAC
+   ========================================================================== */
+
+/* --- Mise en page améliorée --- */
+.bac-left-column, .bac-right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* --- Indicateurs de Croissance & Paramètres Hérités --- */
+.growth-indicators-grid, .parent-params-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+    text-align: center;
+}
+.indicator-item span, .param-item span {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--medium-gray);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.indicator-item strong, .param-item strong {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark-blue);
+}
+.parent-params-grid {
+    background-color: var(--light-gray);
+    padding: 16px;
+    border-radius: var(--border-radius);
+}
+
+/* --- Capteurs Locaux --- */
+.local-sensors-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 16px;
+}
+
+/* --- Ajustements responsives pour la nouvelle structure --- */
+@media (max-width: 992px) {
+    .bac-view-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
+   CSS ADDITIF - PAGE ALERTES
+   ========================================================================== */
+
+/* --- Section Résumé Analytique --- */
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+}
+.summary-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: var(--background-color);
+    padding: 24px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+.summary-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 1.5rem;
+}
+.summary-content { line-height: 1.2; }
+.summary-value { font-size: 2rem; font-weight: 700; }
+.summary-label { font-size: 0.9rem; font-weight: 500; color: var(--medium-gray); }
+
+.summary-card.critical .summary-icon { background-color: #FEE2E2; color: var(--status-red); }
+.summary-card.critical .summary-value { color: var(--status-red); }
+.summary-card.warning .summary-icon { background-color: #FEF3C7; color: var(--status-orange); }
+.summary-card.warning .summary-value { color: var(--status-orange); }
+.summary-card.info .summary-icon { background-color: #DBEAFE; color: var(--status-blue); }
+.summary-card.info .summary-value { color: var(--status-blue); }
+.summary-card.trend .summary-icon { background-color: #D1FAE5; color: var(--primary-green); }
+.summary-card.trend .summary-value { color: var(--primary-green); }
+
+/* --- Section Filtres Avancés --- */
+.filter-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.filter-group label {
+    font-weight: 600;
+    color: var(--medium-gray);
+    font-size: 0.9rem;
+}
+
+/* --- Cartes d'Alertes Enrichies --- */
+.alerts-active-section { margin-bottom: 32px; }
+.section-title { font-size: 1.5rem; color: var(--dark-blue); margin-bottom: 24px; }
+.alerts-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+.alert-card { background-color: var(--background-color); border-left: 5px solid; padding: 20px; border-radius: var(--border-radius); box-shadow: var(--shadow); }
+.alert-card.critical { border-color: var(--status-red); }
+.alert-card.warning { border-color: var(--status-orange); }
+.alert-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.alert-icon { font-size: 1.2rem; }
+.alert-card.critical .alert-icon { color: var(--status-red); }
+.alert-card.warning .alert-icon { color: var(--status-orange); }
+.alert-header h4 { font-size: 1.1rem; color: var(--dark-blue); flex-grow: 1; }
+.alert-location { font-size: 0.8rem; font-weight: 500; color: var(--medium-gray); }
+.alert-body p { color: var(--medium-gray); margin-bottom: 16px; line-height: 1.5; }
+.alert-actions { display: flex; justify-content: flex-end; align-items: center; gap: 12px; }
+.btn-link { font-weight: 600; color: var(--medium-gray); text-decoration: none; }
+.btn { border: none; padding: 10px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+.btn-primary { background-color: var(--primary-green); color: white; }
+
+/* --- Tableau d'Historique Enrichi --- */
+.events-table { width: 100%; border-collapse: collapse; }
+.events-table th, .events-table td { text-align: left; padding: 14px; border-bottom: 1px solid var(--border-gray); }
+.events-table th { font-size: 0.8rem; text-transform: uppercase; color: var(--medium-gray); font-weight: 600; }
+.events-table td { font-size: 0.9rem; color: var(--dark-blue); font-weight: 500; }
+.events-table tbody tr:hover { background-color: var(--light-gray); }
+
+/* ==========================================================================
+   CSS ADDITIF - INTERACTIVITÉ ALERTES
+   ========================================================================== */
+
+/* --- Compteurs cliquables --- */
+.summary-card.interactive {
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+.summary-card.interactive:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+.summary-card.active {
+    box-shadow: 0 0 0 3px var(--primary-green);
+}
+
+/* --- Amélioration des menus déroulants --- */
+.styled-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-gray);
+    border-radius: 8px;
+    padding: 8px 32px 8px 12px;
+    font-family: var(--font-family);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--dark-blue);
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23667085' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+.styled-select:hover { border-color: var(--primary-green); }
+.styled-select:focus { outline: none; border-color: var(--primary-green); box-shadow: 0 0 0 3px rgba(52, 168, 83, 0.2); }
+
+/* --- Bouton secondaire --- */
+.btn-secondary {
+    background-color: var(--light-gray);
+    color: var(--dark-blue);
+    border: 1px solid var(--border-gray);
+}
+
+/* --- Modale d'assignation/commentaire --- */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(16, 24, 40, 0.6);
+    display: grid;
+    place-items: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+.modal-content {
+    background-color: var(--background-color);
+    padding: 32px;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--medium-gray);
+    cursor: pointer;
+}
+.modal-content h3 {
+    font-size: 1.5rem;
+    color: var(--dark-blue);
+    margin-bottom: 24px;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: var(--dark-blue);
+    margin-bottom: 8px;
+}
+.form-group .styled-select, .form-group textarea {
+    width: 100%;
+}
+.form-group textarea {
+    padding: 12px;
+    border: 1px solid var(--border-gray);
+    border-radius: 8px;
+    font-family: var(--font-family);
+    font-size: 1rem;
+    resize: vertical;
+}
+.form-group textarea:focus {
+    outline: none; border-color: var(--primary-green); box-shadow: 0 0 0 3px rgba(52, 168, 83, 0.2);
+}
+
+/* ==========================================================================
+   CSS ADDITIF - PAGE ÉCONOMIE
+   ========================================================================== */
+
+/* --- Grille spécifique à la page Économie --- */
+.economie-grid {
+    margin-bottom: 24px;
+}
+.summary-value small {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--medium-gray);
+    margin-left: 4px;
+}
+
+/* --- Simulateur de Rentabilité --- */
+.simulator-card {
+    background-color: var(--dark-blue);
+    color: #fff;
+}
+.simulator-card .section-title {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 32px;
+}
+.simulator-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+}
+.simulator-inputs h4, .simulator-outputs h4 {
+    font-size: 1.2rem;
+    color: var(--primary-green);
+    margin-bottom: 24px;
+    border-bottom: 1px solid #344054;
+    padding-bottom: 12px;
+}
+.form-group label {
+    color: #d0d5dd;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #475467;
+    border-radius: 8px;
+    background-color: #101828;
+    color: #fff;
+    font-family: var(--font-family);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 8px;
+}
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(52, 168, 83, 0.3);
+}
+
+.simulator-outputs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.output-item {
+    background-color: #101828;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    border: 1px solid #344054;
+}
+.output-item span {
+    display: block;
+    color: #d0d5dd;
+    font-weight: 500;
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+.output-item strong {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #fff;
+}
+.output-item.highlight strong {
+    color: var(--primary-green);
+}
+
+@media (max-width: 992px) {
+    .simulator-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -3,23 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Économie - Hydro Igran Dashboard</title>
+    <title>Analyse Économique - Hydro Igran Dashboard</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic" com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/dashboard.js"></script>
-    <link rel="stylesheet" href="dashboard.css"> <!-- On utilise le CSS du dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="dashboard.css">
 </head>
-<body>
+<body class="dashboard-body">
     
     <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="logo-icon"></div>
-            <h1 class="logo-text">Hydro Igran</h1>
-        </div>
+        <a href="dashboard.html" class="sidebar-logo-link"><div class="sidebar-header"><div class="logo-text">Hydro Igran</div></div></a>
         <nav class="sidebar-nav">
             <a href="dashboard.html"><i class="fa-solid fa-table-cells-large"></i> Vue Salle</a>
             <a href="ligne.html"><i class="fa-solid fa-chart-simple"></i> Vue Ligne</a>
@@ -27,83 +24,81 @@
             <a href="alertes.html"><i class="fa-solid fa-bell"></i> Alertes</a>
             <a href="economie.html" class="active"><i class="fa-solid fa-arrow-trend-up"></i> Économie</a>
         </nav>
-        <a href="#" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+        <a href="index.html" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
     </aside>
+
+    <div class="sidebar-overlay"></div>
 
     <main class="main-content">
         <header class="page-header">
-            <h1>Analyse Économique</h1>
+            <button class="mobile-menu-toggle" aria-label="Ouvrir le menu"><i class="fa-solid fa-bars"></i></button>
+            <div class="header-title-wrapper"><h1 class="main-title">Analyse Économique</h1></div>
             <div class="header-actions">
-                <div class="filter-group">
-                    <label for="filter-period">Période :</label>
-                    <select id="filter-period" class="dropdown">
-                        <option value="monthly">Ce Mois</option>
-                        <option value="yearly">Cette Année</option>
-                        <option value="all">Depuis le début</option>
-                    </select>
-                </div>
-                 <div class="header-item user-profile">
-                    <img src="https://i.pravatar.cc/40?u=johndoe" alt="Avatar de l'utilisateur">
-                    <span>John Doe</span>
+                <div id="datetime-container" class="header-item"></div>
+                <div class="header-item user-profile">
+                    <img src="/assets/story/h_pdp.jpg" alt="Avatar de l'utilisateur"><span>Haithem Chouari</span>
                 </div>
             </div>
         </header>
 
-        <section class="dashboard-grid">
-            <!-- Indicateurs Clés -->
+        <!-- NOUVEAUX KPIs FINANCIERS -->
+        <section class="summary-grid">
+            <div class="summary-card info"><div class="summary-icon"><i class="fa-solid fa-tag"></i></div><div class="summary-content"><span class="summary-value">1.8 <small>MAD/kg</small></span><span class="summary-label">Coût de Revient</span></div></div>
+            <div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div><div class="summary-content"><span class="summary-value">3.5 <small>MAD/kg</small></span><span class="summary-label">Prix de Vente Moyen</span></div></div>
+            <div class="summary-card trend"><div class="summary-icon"><i class="fa-solid fa-percent"></i></div><div class="summary-content"><span class="summary-value">48%</span><span class="summary-label">Marge Brute</span></div></div>
+            <div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-scale-balanced"></i></div><div class="summary-content"><span class="summary-value">1.2 T<small>/mois</small></span><span class="summary-label">Point Mort (Break-even)</span></div></div>
+        </section>
+
+        <!-- NOUVEAUX GRAPHIQUES -->
+        <section class="dashboard-grid economie-grid">
+            <article class="card large-span-2">
+                <h3 class="card-title">Évolution du Coût de Revient vs Prix du Marché</h3>
+                <div class="chart-container" style="height: 280px;"><canvas id="costEvolutionChart"></canvas></div>
+            </article>
             <article class="card">
-                <h3 class="card-title">Coût Actuel / kg</h3>
-                <p class="card-value">2,50<span class="unit"> €</span></p>
-                <small class="card-comparison down">▼ 0.12€ vs mois dernier</small>
+                <h3 class="card-title">Projection du ROI (12 mois)</h3>
+                <div class="chart-container" style="height: 280px;"><canvas id="roiProjectionChart"></canvas></div>
             </article>
-             <article class="card">
-                <h3 class="card-title">Coût Aliment Traditionnel / kg</h3>
-                <p class="card-value">4,20<span class="unit"> €</span></p>
-                <small class="card-comparison">Prix marché actuel</small>
-            </article>
-            <article class="card highlight">
-                <h3 class="card-title">Économies Réalisées (ce mois)</h3>
-                <p class="card-value">850<span class="unit"> €</span></p>
-                <small class="card-comparison">Basé sur 500kg produits</small>
-            </article>
-             <article class="card">
-                <h3 class="card-title">Retour sur Investissement (ROI)</h3>
-                <p class="card-value">12<span class="unit"> %</span></p>
-                <small class="card-comparison">Projeté sur 12 mois</small>
-            </article>
+        </section>
 
-            <!-- Graphiques -->
-            <article class="card large-chart-card">
-                <h3 class="card-title">Évolution du Coût par kg</h3>
-                <div style="height: 250px;"><canvas id="costEvolutionChart"></canvas></div>
-            </article>
-            <article class="card large-chart-card">
-                <h3 class="card-title">Économies Cumulées par Mois</h3>
-                <div style="height: 250px;"><canvas id="savingsChart"></canvas></div>
-            </article>
-
-            <!-- Simulateur -->
-            <article class="card" style="grid-column: span 4;">
-                <h3 class="card-title">Simulateur de Rentabilité</h3>
-                <div class="simulator-grid">
-                    <div class="form-group">
-                        <label for="sim-production">Production mensuelle (kg)</label>
-                        <input type="number" id="sim-production" value="500">
+        <!-- SIMULATEUR DE RENTABILITÉ COMPLET -->
+        <section class="card simulator-card">
+            <h2 class="section-title">Simulateur de Rentabilité</h2>
+            <div class="simulator-grid">
+                <!-- COLONNE INPUTS -->
+                <div class="simulator-inputs">
+                    <h4>Hypothèses</h4>
+                    <div class="form-group"><label for="sim-investissement">Investissement initial (CAPEX)</label><input type="number" id="sim-investissement" value="50000"></div>
+                    <div class="form-group"><label for="sim-charges-fixes">Charges fixes mensuelles</label><input type="number" id="sim-charges-fixes" value="1500"></div>
+                    <div class="form-group"><label for="sim-cout-variable">Coût variable / kg</label><input type="number" id="sim-cout-variable" value="1.8" step="0.1"></div>
+                    <div class="form-group"><label for="sim-production">Production mensuelle (kg)</label><input type="number" id="sim-production" value="1500"></div>
+                    <div class="form-group"><label for="sim-prix-vente">Prix de vente / kg</label><input type="number" id="sim-prix-vente" value="3.5" step="0.1"></div>
+                </div>
+                <!-- COLONNE OUTPUTS -->
+                <div class="simulator-outputs">
+                    <h4>Résultats Projetés</h4>
+                    <div class="output-item">
+                        <span>Profit Mensuel Net</span>
+                        <strong id="output-profit">1,050 MAD</strong>
                     </div>
-                    <div class="form-group">
-                        <label for="sim-cost">Coût aliment traditionnel (€/kg)</label>
-                        <input type="number" id="sim-cost" value="4.20">
+                    <div class="output-item">
+                        <span>Marge Nette</span>
+                        <strong id="output-marge">20%</strong>
                     </div>
-                    <div class="simulator-result">
-                        <p>Économies mensuelles projetées</p>
-                        <strong id="sim-result">850 €</strong>
+                    <div class="output-item">
+                        <span>Période de Remboursement (Payback)</span>
+                        <strong id="output-payback">48 mois</strong>
+                    </div>
+                    <div class="output-item highlight">
+                        <span>Retour sur Investissement (ROI) à 12 mois</span>
+                        <strong id="output-roi">25%</strong>
                     </div>
                 </div>
-            </article>
-
+            </div>
         </section>
+
     </main>
     
-    <script src="script.js"></script>
+    <script src="dashboard.js"></script>
 </body>
 </html>

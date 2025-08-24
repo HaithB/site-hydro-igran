@@ -6,19 +6,17 @@
     <title>Alertes - Hydro Igran Dashboard</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link rel="stylesheet" href="dashboard.css"> <!-- On utilise le CSS du dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="dashboard.css">
 </head>
-<body>
+<body class="dashboard-body">
     
     <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="logo-icon"></div>
-            <h1 class="logo-text">Hydro Igran</h1>
-        </div>
+        <a href="dashboard.html" class="sidebar-logo-link"><div class="sidebar-header"><div class="logo-text">Hydro Igran</div></div></a>
         <nav class="sidebar-nav">
             <a href="dashboard.html"><i class="fa-solid fa-table-cells-large"></i> Vue Salle</a>
             <a href="ligne.html"><i class="fa-solid fa-chart-simple"></i> Vue Ligne</a>
@@ -26,105 +24,97 @@
             <a href="alertes.html" class="active"><i class="fa-solid fa-bell"></i> Alertes</a>
             <a href="economie.html"><i class="fa-solid fa-arrow-trend-up"></i> Économie</a>
         </nav>
-        <a href="#" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+        <a href="index.html" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
     </aside>
+
+    <div class="sidebar-overlay"></div>
 
     <main class="main-content">
         <header class="page-header">
-            <h1>Centre d'Alertes</h1>
+            <button class="mobile-menu-toggle" aria-label="Ouvrir le menu"><i class="fa-solid fa-bars"></i></button>
+            <div class="header-title-wrapper"><h1 class="main-title">Centre d'Alertes</h1></div>
             <div class="header-actions">
-                <div class="filter-group">
-                    <label for="filter-type">Filtrer par type :</label>
-                    <select id="filter-type" class="dropdown">
-                        <option value="all">Toutes</option>
-                        <option value="critical">Critiques</option>
-                        <option value="warning">Avertissements</option>
-                        <option value="info">Infos</option>
-                    </select>
-                </div>
-                 <div class="header-item user-profile">
-                    <img src="https://i.pravatar.cc/40?u=johndoe" alt="Avatar de l'utilisateur">
-                    <span>John Doe</span>
+                <div id="datetime-container" class="header-item"></div>
+                <div class="header-item user-profile">
+                    <img src="/assets/story/h_pdp.jpg" alt="Avatar de l'utilisateur"><span>Haithem Chouari</span>
                 </div>
             </div>
         </header>
 
-        <section>
-            <h2 class="section-title">Alertes Actives (Nécessitant une action)</h2>
+        <section class="summary-grid">
+            <!-- COMPTEURS MAINTENANT CLIQUABLES -->
+            <div class="summary-card critical interactive" data-filter="critical"><div class="summary-icon"><i class="fa-solid fa-circle-exclamation"></i></div><div class="summary-content"><span class="summary-value">2</span><span class="summary-label">Critiques</span></div></div>
+            <div class="summary-card warning interactive" data-filter="warning"><div class="summary-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="summary-content"><span class="summary-value">3</span><span class="summary-label">Avertissements</span></div></div>
+            <div class="summary-card info interactive" data-filter="info"><div class="summary-icon"><i class="fa-solid fa-circle-info"></i></div><div class="summary-content"><span class="summary-value">5</span><span class="summary-label">Informations</span></div></div>
+            <div class="summary-card trend"><div class="summary-icon"><i class="fa-solid fa-arrow-trend-down"></i></div><div class="summary-content"><span class="summary-value">-30%</span><span class="summary-label">Tendance / 7 jours</span></div></div>
+        </section>
+
+        <section class="card filter-section">
+            <div class="filter-group"><label for="filter-status"><i class="fa-solid fa-list-check"></i> Statut</label><select id="filter-status" class="dropdown styled-select"><option>Toutes</option><option>Actives</option><option>Résolues</option><option>En cours</option></select></div>
+            <div class="filter-group"><label for="filter-origin"><i class="fa-solid fa-location-dot"></i> Origine</label><select id="filter-origin" class="dropdown styled-select"><option>Toutes</option><option>Salle</option><option>Ligne</option><option>Bac</option><option>Système</option></select></div>
+            <div class="filter-group"><label for="filter-period"><i class="fa-solid fa-calendar-days"></i> Période</label><select id="filter-period" class="dropdown styled-select"><option>Dernières 24h</option><option>7 derniers jours</option><option>30 derniers jours</option></select></div>
+        </section>
+
+        <section class="alerts-active-section">
+            <h2 class="section-title">Alertes Actives</h2>
             <div class="alerts-grid">
-                <div class="alert-card critical">
-                    <div class="alert-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                    <div class="alert-content">
-                        <h4>Maintenance requise sur la pompe</h4>
-                        <p>La pression de la pompe de la Ligne 2 est anormalement basse. Une inspection est nécessaire.</p>
-                        <small>Il y a 2 heures</small>
-                    </div>
-                    <div class="alert-actions">
-                        <button class="btn-alert">Marquer comme résolu</button>
-                    </div>
+                <!-- NOUVELLES CARTES D'ALERTE -->
+                <div class="alert-card critical" data-type="critical" data-origin="Salle">
+                    <div class="alert-header"><i class="fa-solid fa-temperature-full alert-icon"></i><h4>Température Salle Élevée</h4><span class="alert-location"><i class="fa-solid fa-location-dot"></i> Salle Principale</span></div>
+                    <div class="alert-body"><p><strong>Cause probable :</strong> Panne ventilation. <strong>Action recommandée :</strong> Inspecter le système de ventilation.</p><div class="alert-actions"><a href="dashboard.html" class="btn-link">Voir Détails</a><button class="btn btn-secondary btn-assign">Assigner</button><button class="btn btn-primary">Résoudre</button></div></div>
                 </div>
-                <div class="alert-card warning">
-                    <div class="alert-icon"><i class="fa-solid fa-temperature-half"></i></div>
-                    <div class="alert-content">
-                        <h4>Température élevée</h4>
-                        <p>La température dans le Bac 03 de la Ligne 4 a dépassé le seuil recommandé (29°C).</p>
-                        <small>Il y a 45 minutes</small>
-                    </div>
-                    <div class="alert-actions">
-                         <button class="btn-alert">Marquer comme résolu</button>
-                    </div>
+                <div class="alert-card warning" data-type="warning" data-origin="Ligne">
+                    <div class="alert-header"><i class="fa-solid fa-flask-vial alert-icon"></i><h4>Niveau pH bas</h4><span class="alert-location"><i class="fa-solid fa-location-dot"></i> Ligne 3</span></div>
+                    <div class="alert-body"><p><strong>Cause probable :</strong> Réservoir pH Up vide. <strong>Action recommandée :</strong> Vérifier et recharger le réservoir de solution pH Up.</p><div class="alert-actions"><a href="ligne.html" class="btn-link">Voir Détails</a><button class="btn btn-secondary btn-assign">Assigner</button><button class="btn btn-primary">Résoudre</button></div></div>
+                </div>
+                <div class="alert-card critical" data-type="critical" data-origin="Système">
+                    <div class="alert-header"><i class="fa-solid fa-tower-broadcast alert-icon"></i><h4>Perte de connexion capteur</h4><span class="alert-location"><i class="fa-solid fa-location-dot"></i> Bac B-02-05</span></div>
+                    <div class="alert-body"><p><strong>Cause probable :</strong> Batterie faible ou interférence. <strong>Action recommandée :</strong> Vérifier l'alimentation et la connectivité du capteur.</p><div class="alert-actions"><a href="bac.html" class="btn-link">Voir Détails</a><button class="btn btn-secondary btn-assign">Assigner</button><button class="btn btn-primary">Résoudre</button></div></div>
+                </div>
+                 <div class="alert-card warning" data-type="warning" data-origin="Bac">
+                    <div class="alert-header"><i class="fa-solid fa-droplet alert-icon"></i><h4>Drainage excessif détecté</h4><span class="alert-location"><i class="fa-solid fa-location-dot"></i> Bac A-01-03</span></div>
+                    <div class="alert-body"><p><strong>Cause probable :</strong> Cycle d'arrosage trop long. <strong>Action recommandée :</strong> Réduire la durée du prochain cycle d'irrigation.</p><div class="alert-actions"><a href="bac.html" class="btn-link">Voir Détails</a><button class="btn btn-secondary btn-assign">Assigner</button><button class="btn btn-primary">Résoudre</button></div></div>
+                </div>
+                 <div class="alert-card info" data-type="info" data-origin="Système">
+                    <div class="alert-header"><i class="fa-solid fa-cloud-arrow-up alert-icon"></i><h4>Mise à jour logicielle disponible</h4><span class="alert-location"><i class="fa-solid fa-location-dot"></i> Système</span></div>
+                    <div class="alert-body"><p>La version 2.1.3 est prête à être installée. <strong>Action recommandée :</strong> Planifier l'installation pendant une période de maintenance.</p><div class="alert-actions"><button class="btn btn-primary">Installer</button></div></div>
                 </div>
             </div>
         </section>
 
-        <section>
-            <h2 class="section-title">Historique des Événements</h2>
-            <div class="card">
-                <table class="events-table">
-                    <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Description</th>
-                            <th>Source</th>
-                            <th>Date & Heure</th>
-                            <th>Statut</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><i class="fa-solid fa-circle color-red"></i> Critique</td>
-                            <td>Maintenance requise sur la pompe</td>
-                            <td>Ligne 2</td>
-                            <td>Aujourd'hui, 12:15</td>
-                            <td><span class="status-badge status-warn">Actif</span></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fa-solid fa-circle color-orange"></i> Avert.</td>
-                            <td>Température élevée</td>
-                            <td>Ligne 4 - Bac 03</td>
-                            <td>Aujourd'hui, 13:30</td>
-                            <td><span class="status-badge status-warn">Actif</span></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fa-solid fa-circle color-blue"></i> Info</td>
-                            <td>Calibration pH effectuée</td>
-                            <td>Ligne 1</td>
-                            <td>Hier, 14:00</td>
-                            <td><span class="status-badge status-ok">Résolu</span></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fa-solid fa-circle color-green"></i> Système</td>
-                            <td>Cycle de nettoyage terminé</td>
-                            <td>Système</td>
-                            <td>Hier, 10:00</td>
-                            <td><span class="status-badge status-ok">Résolu</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <section class="card">
+            <h2 class="section-title">Historique des Alertes</h2>
+            <table class="events-table">
+                <thead><tr><th>Date</th><th>Alerte</th><th>Origine</th><th>Responsable</th><th>Durée Résolution</th><th>Commentaire</th></tr></thead>
+                <tbody>
+                    <tr><td>23/08, 14:00</td><td>Calibration pH requise</td><td>Ligne 1</td><td>H. Chouari</td><td>15 min</td><td>Sonde recalibrée avec solution tampon.</td></tr>
+                    <tr><td>22/08, 18:30</td><td>Température légèrement haute</td><td>Ligne 2</td><td>Auto-résolu</td><td>45 min</td><td>Ventilation augmentée automatiquement.</td></tr>
+                </tbody>
+            </table>
         </section>
     </main>
     
-    <script src="script.js"></script>
+    <!-- NOUVELLE MODALE POUR ASSIGNER/COMMENTER -->
+    <div class="modal-overlay" id="alert-modal">
+        <div class="modal-content">
+            <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            <h3 id="modal-title">Gérer l'Alerte</h3>
+            <div class="form-group">
+                <label for="assign-to">Assigner à un technicien</label>
+                <select id="assign-to" class="dropdown styled-select">
+                    <option>Non assigné</option>
+                    <option>Amine Kassir</option>
+                    <option>Fatima Zahra</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="comment">Ajouter un commentaire de résolution</label>
+                <textarea id="comment" rows="4" placeholder="Ex: Filtre de la pompe nettoyé, obstruction résolue."></textarea>
+            </div>
+            <button class="btn btn-primary">Enregistrer et Résoudre</button>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
 </body>
 </html>

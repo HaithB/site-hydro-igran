@@ -7,18 +7,18 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link rel="stylesheet" href="dashboard.css"> <!-- On utilise le même style.css -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="dashboard.css">
 </head>
 <body class="dashboard-body">
     
     <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="logo-icon"></div>
-            <h1 class="logo-text">Hydro Igran</h1>
-        </div>
+        <a href="dashboard.html" class="sidebar-logo-link">
+            <div class="sidebar-header"><div class="logo-text">Hydro Igran</div></div>
+        </a>
         <nav class="sidebar-nav">
             <a href="dashboard.html"><i class="fa-solid fa-table-cells-large"></i> Vue Salle</a>
             <a href="ligne.html"><i class="fa-solid fa-chart-simple"></i> Vue Ligne</a>
@@ -26,88 +26,102 @@
             <a href="alertes.html"><i class="fa-solid fa-bell"></i> Alertes</a>
             <a href="economie.html"><i class="fa-solid fa-arrow-trend-up"></i> Économie</a>
         </nav>
-        <a href="#" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+        <a href="index.html" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
     </aside>
+
+    <div class="sidebar-overlay"></div>
 
     <main class="main-content">
         <header class="page-header">
-            <div class="header-title-container">
-                <h1>Vue Bac</h1>
-                <select class="line-selector dropdown">
-                    <option value="1">Ligne 1 - Bac 01</option>
-                    <option value="2">Ligne 1 - Bac 02</option>
-                    <option value="3">Ligne 2 - Bac 01</option>
-                    <!-- etc. -->
-                </select>
+            <button class="mobile-menu-toggle" aria-label="Ouvrir le menu"><i class="fa-solid fa-bars"></i></button>
+            <div class="header-title-wrapper">
+                <h1 class="main-title">Détail du Bac</h1>
+                <div class="line-selector-wrapper">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <select id="line-selector" class="dropdown-line-selector">
+                        <option value="1">Ligne 1 - Bac 01</option>
+                        <option value="2">Ligne 1 - Bac 02</option>
+                        <option value="3">Ligne 2 - Bac 01</option>
+                    </select>
+                </div>
             </div>
             <div class="header-actions">
-                <div class="header-item"><i class="fa-regular fa-bell"></i></div>
+                <div id="datetime-container" class="header-item"></div>
                 <div class="header-item user-profile">
-                    <img src="https://i.pravatar.cc/40?u=johndoe" alt="Avatar de l'utilisateur">
-                    <span>John Doe</span>
+                    <img src="/assets/story/h_pdp.jpg" alt="Avatar de l'utilisateur">
+                    <span>Haithem Chouari</span>
                 </div>
             </div>
         </header>
 
-        <section class="bac-grid">
-            <!-- Colonne de gauche: Infos du bac -->
-            <article class="card bac-details-card">
-                <div class="bac-photo">
-                    <!-- Remplacer par une vraie image du bac plus tard -->
-                    <i class="fa-solid fa-seedling"></i>
-                </div>
-                <div class="bac-info">
-                    <h3>Bac 01 (Ligne 1)</h3>
-                    <div class="status-indicator">
-                        <span class="status-dot status-ok"></span>
-                        <span class="status-text">En Croissance</span>
-                    </div>
-                    <ul class="cycle-details-list">
-                        <li><span>Âge du cycle</span><strong>Jour 4 / 7</strong></li>
-                        <li><span>Poids estimé</span><strong>3.2 kg</strong></li>
-                        <li><span>Humidité substrat</span><strong>85%</strong></li>
-                        <li><span>Température locale</span><strong>22.1 °C</strong></li>
-                    </ul>
-                </div>
-            </article>
+        <section class="bac-view-grid">
 
-            <!-- Colonne de droite: Journal d'événements -->
-            <article class="card bac-log-card">
-                <h3 class="card-title">Journal d'Événements</h3>
-                <ul class="bac-log-list">
-                    <li class="log-entry">
-                        <div class="log-icon" style="background-color: rgba(52, 152, 219, 0.1); color: var(--status-blue);"><i class="fa-solid fa-faucet-drip"></i></div>
-                        <div class="log-details">
-                            <p class="log-text">Cycle d'arrosage automatique terminé.</p>
-                            <small class="log-timestamp">Aujourd'hui, 14:00</small>
-                        </div>
-                    </li>
-                    <li class="log-entry">
-                        <div class="log-icon" style="background-color: rgba(52, 168, 83, 0.1); color: var(--primary-green);"><i class="fa-solid fa-check"></i></div>
-                        <div class="log-details">
-                            <p class="log-text">Inspection visuelle : croissance normale.</p>
-                            <small class="log-timestamp">Aujourd'hui, 09:15</small>
-                        </div>
-                    </li>
-                    <li class="log-entry">
-                        <div class="log-icon" style="background-color: rgba(243, 156, 18, 0.1); color: var(--status-orange);"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                        <div class="log-details">
-                            <p class="log-text">Alerte : Humidité légèrement basse (82%).</p>
-                            <small class="log-timestamp">Hier, 21:30</small>
-                        </div>
-                    </li>
-                     <li class="log-entry">
-                        <div class="log-icon" style="background-color: var(--light-gray); color: var(--medium-gray);"><i class="fa-solid fa-play"></i></div>
-                        <div class="log-details">
-                            <p class="log-text">Début du cycle de production (semis d'orge).</p>
-                            <small class="log-timestamp">Il y a 4 jours</small>
-                        </div>
-                    </li>
-                </ul>
-            </article>
+            <!-- COLONNE DE GAUCHE : FICHE DU BAC -->
+            <div class="bac-left-column">
+                <article class="card bac-main-card">
+                    <div class="bac-photo"><i class="fa-solid fa-seedling"></i></div>
+                    <div class="bac-info">
+                        <div class="bac-header"><h3>Bac A-01-01</h3><span class="status-badge status-ok">En Croissance</span></div>
+                        <ul class="details-list">
+                            <li><span>Type de Semence</span><strong>Orge</strong></li>
+                            <li><span>Âge du Cycle</span><strong>Jour 5 / 7 (J-2)</strong></li>
+                            <li class="separator"></li>
+                            <li><span>Poids Estimé Actuel</span><strong>10.2 kg</strong></li>
+                            <li><span>Poids Projeté Récolte</span><strong>14.5 kg</strong></li>
+                            <li><span>Probabilité Rendement</span><strong>95%</strong></li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <h3 class="card-title">Indicateurs de Croissance</h3>
+                    <div class="growth-indicators-grid">
+                        <div class="indicator-item"><span>Densité Biomasse</span><strong>8.1 kg/m²</strong></div>
+                        <div class="indicator-item"><span>Hauteur Pousses</span><strong>18 cm</strong></div>
+                        <div class="indicator-item"><span>Homogénéité</span><strong>96%</strong></div>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <h3 class="card-title">Paramètres Hérités (Ligne 1)</h3>
+                    <div class="parent-params-grid">
+                        <div class="param-item"><span>Dernier pH Reçu</span><strong>6.5</strong></div>
+                        <div class="param-item"><span>Dernier EC Reçu</span><strong>0.6 mS/cm</strong></div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- COLONNE DE DROITE : JOURNAL ET GRAPHIQUES -->
+            <div class="bac-right-column">
+                <article class="card bac-log-card">
+                    <h3 class="card-title">Journal d'Événements du Bac</h3>
+                    <ul class="bac-log-timeline">
+                        <li class="log-entry"><div class="log-icon"><i class="fa-solid fa-spray-can-sparkles"></i></div><div class="log-details"><p>Pulvérisation préventive</p><small>Aujourd'hui, 11:00 - Manuel</small></div></li>
+                        <li class="log-entry"><div class="log-icon"><i class="fa-solid fa-vial"></i></div><div class="log-details"><p><strong>Inspection Visuelle</strong> - RAS</p><small>Aujourd'hui, 09:00 - Manuel</small></div></li>
+                        <li class="log-entry"><div class="log-icon"><i class="fa-solid fa-tint"></i></div><div class="log-details"><p>Arrosage (cycle #5)</p><small>Aujourd'hui, 08:30 - Automatique</small></div></li>
+                        <li class="log-entry"><div class="log-icon alert"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="log-details"><p><strong>Anomalie :</strong> Humidité substrat basse (72%)</p><small>Hier, 22:15 - Alerte Système</small></div></li>
+                    </ul>
+                </article>
+
+                <article class="card">
+                    <h3 class="card-title">Capteurs Locaux</h3>
+                    <div class="local-sensors-grid">
+                        <div class="data-point"><i class="fa-solid fa-temperature-half"></i><div><strong>Temp. Locale</strong><span>21.5°C</span></div></div>
+                        <div class="data-point"><i class="fa-solid fa-droplet"></i><div><strong>Humidité Substrat</strong><span>85%</span></div></div>
+                        <div class="data-point"><i class="fa-solid fa-recycle"></i><div><strong>Drainage (24h)</strong><span>1.1 L</span></div></div>
+                        <div class="data-point"><i class="fa-solid fa-wind"></i><div><strong>Oxygénation</strong><span>8.2 mg/L</span></div></div>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <h3 class="card-title">Historique Humidité Substrat (24h)</h3>
+                    <div class="chart-container" style="height: 150px;"><canvas id="humidityChart"></canvas></div>
+                </article>
+            </div>
+            
         </section>
     </main>
     
-    <script src="script.js"></script>
+    <script src="dashboard.js"></script>
 </body>
 </html>
