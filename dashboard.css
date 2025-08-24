@@ -2,12 +2,12 @@
    PALETTE DÉFINITIVE : "ACIER & CHLOROPHYLLE"
    ========================================================================== */
 :root {
-    --dark-blue: #101828; --primary-green: #34A853; --light-gray: #F9FAFB; --medium-gray: #667085; --border-gray: #EAECF0; --background-color: #ffffff;
-    --status-orange: #F79009; --status-red: #D92D20; --status-blue: #367BBE;
-    --font-family: 'Be Vietnam Pro', sans-serif; --border-radius: 12px;
-    --shadow: 0 4px 6px -1px rgb(16 24 40 / 0.07), 0 2px 4px -2px rgb(16 24 40 / 0.07);
-    --shadow-hover: 0 10px 15px -3px rgb(16 24 40 / 0.08), 0 4px 6px -4px rgb(16 24 40 / 0.08);
-    --transition-speed: 0.3s; --green-glow: linear-gradient(90deg, var(--primary-green), #5fbf83);
+--dark-blue: #101828; --primary-green: #34A853; --light-gray: #F9FAFB; --medium-gray: #667085; --border-gray: #EAECF0; --background-color: #ffffff;
+--status-orange: #F79009; --status-red: #D92D20; --status-blue: #367BBE;
+--font-family: 'Be Vietnam Pro', sans-serif; --border-radius: 12px;
+--shadow: 0 4px 6px -1px rgb(16 24 40 / 0.07), 0 2px 4px -2px rgb(16 24 40 / 0.07);
+--shadow-hover: 0 10px 15px -3px rgb(16 24 40 / 0.08), 0 4px 6px -4px rgb(16 24 40 / 0.08);
+--transition-speed: 0.3s; --green-glow: linear-gradient(90deg, var(--primary-green), #5fbf83);
 }
 
 /* --- RESET & BODY --- */
@@ -878,4 +878,87 @@ body {
     .simulator-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* ==========================================================================
+   CSS ADDITIF - SYSTÈME DE THÈMES
+   ========================================================================== */
+
+/* --- Thème 2 : Carbone & Néon (Dark Mode) --- */
+body[data-theme="carbone"] {
+    --dark-blue: #111827;
+    --primary-green: #34D399;
+    --light-gray: #1F2937;
+    --medium-gray: #9CA3AF;
+    --border-gray: #374151;
+    --background-color: #1F2937;
+    --green-glow: linear-gradient(90deg, var(--primary-green), #6EE7B7);
+    color: #E5E7EB; /* Couleur de texte par défaut pour le dark mode */
+}
+body[data-theme="carbone"] h1,
+body[data-theme="carbone"] h2,
+body[data-theme="carbone"] h3,
+body[data-theme="carbone"] h4,
+body[data-theme="carbone"] strong,
+body[data-theme="carbone"] .kpi-summary-value {
+    color: #F9FAFB; /* Texte blanc pour les titres */
+}
+body[data-theme="carbone"] .main-kpi-wrapper {
+    background-color: var(--light-gray); /* Fond des cartes */
+}
+
+/* --- Thème 3 : Sable & Oasis (Chaud) --- */
+body[data-theme="sable"] {
+    --dark-blue: #44403C;
+    --primary-green: #15803D;
+    --light-gray: #F7F5F2;
+    --medium-gray: #78716C;
+    --border-gray: #E7E5E4;
+    --background-color: #FFFFFF;
+    --green-glow: linear-gradient(90deg, var(--primary-green), #22C55E);
+}
+
+/* --- Thème 4 : Ardoise & Menthe (Froid & Pro) --- */
+body[data-theme="menthe"] {
+    --dark-blue: #262F3D;
+    --primary-green: #05C793;
+    --light-gray: #F8F9FB;
+    --medium-gray: #5F738C;
+    --border-gray: #E4E7EB;
+    --background-color: #FFFFFF;
+    --green-glow: linear-gradient(90deg, var(--primary-green), #59D9B2);
+}
+
+/* --- Style du Sélecteur de Thèmes --- */
+.theme-switcher {
+    margin-top: auto; /* Pousse le sélecteur en bas de la sidebar */
+    padding-top: 24px;
+    border-top: 1px solid #333f54;
+}
+.theme-switcher h4 {
+    color: #9CA3AF;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+.theme-buttons {
+    display: flex;
+    gap: 12px;
+}
+.theme-button {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #475467;
+    background-color: var(--color); /* La couleur est définie en ligne */
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.theme-button:hover {
+    transform: scale(1.1);
+}
+.theme-button.active {
+    border-color: #fff;
+    box-shadow: 0 0 0 2px var(--color);
 }

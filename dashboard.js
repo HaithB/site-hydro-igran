@@ -1,5 +1,39 @@
 document.addEventListener("DOMContentLoaded", function init() {
 
+        // ==========================================================================
+    // GESTIONNAIRE DE THÈMES
+    // ==========================================================================
+    const themeButtons = document.querySelectorAll('.theme-button');
+    const defaultTheme = 'acier'; // Notre thème par défaut
+
+    // Applique le thème sauvegardé au chargement de la page
+    const savedTheme = localStorage.getItem('selectedTheme') || defaultTheme;
+    document.body.setAttribute('data-theme', savedTheme);
+
+    // Met à jour le bouton actif
+    themeButtons.forEach(button => {
+        if (button.dataset.theme === savedTheme) {
+            button.classList.add('active');
+        }
+    });
+
+    // Gère le clic sur un bouton de thème
+    themeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const selectedTheme = button.dataset.theme;
+            
+            // Applique le thème au body
+            document.body.setAttribute('data-theme', selectedTheme);
+            
+            // Sauvegarde le choix dans le navigateur
+            localStorage.setItem('selectedTheme', selectedTheme);
+            
+            // Met à jour l'état visuel des boutons
+            themeButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+        });
+    });
+
     // ==========================================================================
     // 0. CONFIGURATION GLOBALE
     // ==========================================================================
