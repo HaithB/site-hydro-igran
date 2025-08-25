@@ -165,8 +165,59 @@ document.addEventListener("DOMContentLoaded", function init() {
         }
 
         // Création des graphiques de la Vue Salle
+
         const ctxProdTotal = document.getElementById('productionTotalChart')?.getContext('2d');
-        if(ctxProdTotal) { new Chart(ctxProdTotal, { type: 'line', data: { labels: donnees.labels30Jours.slice(-7), datasets: [{ data: donnees.production30Jours.slice(-7), borderColor: primaryGreen, borderWidth: 4, tension: 0.4, pointRadius: 0, fill: true, backgroundColor: (()=>{const g=ctxProdTotal.createLinearGradient(0,0,0,120);g.addColorStop(0,'rgba(52,168,83,0.2)');g.addColorStop(1,'rgba(52,168,83,0)');return g;})() }] }, options: { maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false } } } }); }
+            if(ctxProdTotal) { 
+                new Chart(ctxProdTotal, { 
+                    type: 'line', 
+                    data: { 
+                        labels: donnees.labels30Jours.slice(-7), 
+                        datasets: [{ 
+                            data: donnees.production30Jours.slice(-7),
+                            borderColor: primaryGreen, 
+                            borderWidth: 4, 
+                            tension: 0.4, 
+                            pointRadius: [5, 5, 5, 5, 5, 5, 12],
+                            pointBackgroundColor: [
+                                primaryGreen, primaryGreen, primaryGreen, 
+                                primaryGreen, primaryGreen, primaryGreen, 
+                                primaryGreen
+                            ],
+                            pointBorderColor: [
+                                '#fff', '#fff', '#fff', 
+                                '#fff', '#fff', '#fff', 
+                                '#fff'
+                            ],
+                            pointBorderWidth: [3, 3, 3, 3, 3, 3, 4],
+                            fill: true, 
+                            backgroundColor: (()=>{
+                                const g=ctxProdTotal.createLinearGradient(0,0,0,120);
+                                g.addColorStop(0,'rgba(52,168,83,0.2)');
+                                g.addColorStop(1,'rgba(52,168,83,0)');
+                                return g;
+                            })() 
+                        }] 
+                    }, 
+                    options: {
+                        maintainAspectRatio: false,
+                        plugins: { 
+                            legend: { display: false }, 
+                            tooltip: { enabled: false }
+                        },
+                        scales: {
+                            x: { display: false },
+                            y: { display: false }
+                        },
+                        animation: {
+                            onComplete: function() {
+                                addRadarAnimation(this);
+                            }
+                        }
+                    } 
+                }); 
+            }
+
+
         const ctxProd30 = document.getElementById('production30DaysChart')?.getContext('2d');
         if(ctxProd30) { 
             const crosshairPlugin = { 
@@ -251,6 +302,86 @@ document.addEventListener("DOMContentLoaded", function init() {
         
         // Lancement pour la Vue Salle
         updateDOM();
+
+        // Fonction pour ajouter l'animation radar
+        function addRadarAnimation(chart) {
+            const canvas = chart.canvas;
+            const container = canvas.parentNode;
+            
+            // Supprimer les anciennes animations s'il y en a
+            const existingRadar = container.querySelector('.radar-container');
+            if (existingRadar) {
+                existingRadar.remove();
+            }
+            
+            // Position du dernier point
+            const datasetMeta = chart.getDatasetMeta(0);
+            const lastPointIndex = datasetMeta.data.length - 1;
+            const lastPoint = datasetMeta.data[lastPointIndex];
+            
+            if (lastPoint) {
+                // Créer le container d'animation
+                const radarContainer = document.createElement('div');
+                radarContainer.className = 'radar-container';
+                radarContainer.style.left = (lastPoint.x - 6) + 'px';
+                radarContainer.style.top = (lastPoint.y - 6) + 'px';
+                
+                // Créer les cercles d'animation
+                for (let i = 0; i < 3; i++) {
+                    const pulse = document.createElement('div');
+                    pulse.className = 'radar-pulse';
+                    radarContainer.appendChild(pulse);
+                }
+                
+                // Créer la vague sonar
+                const wave = document.createElement('div');
+                wave.className = 'sonar-wave';
+                radarContainer.appendChild(wave);
+                
+                container.style.position = 'relative';
+                container.appendChild(radarContainer);
+            }
+        }
+
+
+        function addRadarAnimation(chart) {
+            const canvas = chart.canvas;
+            const container = canvas.parentNode;
+            
+            // Supprimer les anciennes animations s'il y en a
+            const existingRadar = container.querySelector('.radar-container');
+            if (existingRadar) {
+                existingRadar.remove();
+            }
+            
+            // Position du dernier point
+            const datasetMeta = chart.getDatasetMeta(0);
+            const lastPointIndex = datasetMeta.data.length - 1;
+            const lastPoint = datasetMeta.data[lastPointIndex];
+            
+            if (lastPoint) {
+                // Créer le container d'animation
+                const radarContainer = document.createElement('div');
+                radarContainer.className = 'radar-container';
+                radarContainer.style.left = lastPoint.x + 'px';
+                radarContainer.style.top = lastPoint.y + 'px';
+                
+                // Créer les cercles d'animation
+                for (let i = 0; i < 3; i++) {
+                    const pulse = document.createElement('div');
+                    pulse.className = 'radar-pulse';
+                    radarContainer.appendChild(pulse);
+                }
+                
+                // Créer la vague sonar
+                const wave = document.createElement('div');
+                wave.className = 'sonar-wave';
+                radarContainer.appendChild(wave);
+                
+                container.style.position = 'relative';
+                container.appendChild(radarContainer);
+            }
+        }
     }
 
 

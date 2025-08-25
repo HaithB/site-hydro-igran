@@ -962,3 +962,165 @@ body[data-theme="menthe"] {
     border-color: #fff;
     box-shadow: 0 0 0 2px var(--color);
 }
+
+/* ==========================================================================
+   CSS ADDITIF - ANIMATION RADAR GRAPHIQUE PRODUCTION TOTALE
+   ========================================================================== */
+
+/* --- Animation Radar/Sonar pour le point actuel --- */
+@keyframes radar-pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(2.5);
+        opacity: 0.3;
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+@keyframes sonar-wave {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(2);
+        opacity: 0.4;
+    }
+    100% {
+        transform: scale(3.5);
+        opacity: 0;
+    }
+}
+
+/* --- Container pour l'animation radar --- */
+.radar-container {
+    position: absolute;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.radar-pulse {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border: 2px solid var(--primary-green);
+    border-radius: 50%;
+    animation: radar-pulse 2s infinite ease-out;
+}
+
+.radar-pulse:nth-child(2) {
+    animation-delay: 0.4s;
+    border-color: rgba(52, 168, 83, 0.7);
+}
+
+.radar-pulse:nth-child(3) {
+    animation-delay: 0.8s;
+    border-color: rgba(52, 168, 83, 0.5);
+}
+
+.sonar-wave {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border: 1px solid var(--primary-green);
+    border-radius: 50%;
+    animation: sonar-wave 1.8s infinite linear;
+}
+
+/* --- Point principal animé --- */
+.main-production-point {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: var(--primary-green);
+    border: 3px solid white;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(52, 168, 83, 0.6);
+    z-index: 15;
+    animation: point-glow 2s infinite ease-in-out;
+}
+
+@keyframes point-glow {
+    0%, 100% {
+        box-shadow: 0 0 8px rgba(52, 168, 83, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(52, 168, 83, 0.9);
+    }
+}
+
+/* --- Animation Radar/Sonar pour le point actuel --- */
+@keyframes radar-pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(3);
+        opacity: 0.4;
+    }
+    100% {
+        transform: scale(5);
+        opacity: 0;
+    }
+}
+
+@keyframes sonar-wave {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.9;
+    }
+    50% {
+        transform: scale(2.5);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(4.5);
+        opacity: 0;
+    }
+}
+
+/* --- Container pour l'animation radar --- */
+.radar-container {
+    position: absolute;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.radar-pulse {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 3px solid var(--primary-green);
+    border-radius: 50%;
+    animation: radar-pulse 2.5s infinite ease-out;
+    left: -10px;
+    top: -10px;
+}
+
+.radar-pulse:nth-child(2) {
+    animation-delay: 0.6s;
+    border-color: rgba(52, 168, 83, 0.7);
+}
+
+.radar-pulse:nth-child(3) {
+    animation-delay: 1.2s;
+    border-color: rgba(52, 168, 83, 0.4);
+}
+
+.sonar-wave {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--primary-green);
+    border-radius: 50%;
+    animation: sonar-wave 2s infinite linear;
+    left: -8px;
+    top: -8px;
+}
