@@ -59,13 +59,29 @@
                     
                     <form action="https://formsubmit.co/hydroincubator062025@gmail.com" method="POST">
                         <input type="hidden" name="_next" value="https://haithb.github.io/site-hydro-igran/merci.html">
-                        
+
                         <div class="form-grid">
-                            <div class="form-group"><label for="name">Votre Nom</label><input type="text" id="name" required></div>
-                            <div class="form-group"><label for="email">Votre Email</label><input type="email" id="email" required></div>
+                            <div class="form-group">
+                                <label for="name">Votre Nom</label>
+                                <!-- AJOUT DE name="name" -->
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Votre Email</label>
+                                <!-- AJOUT DE name="email" -->
+                                <input type="email" id="email" name="email" required>
+                            </div>
                         </div>
-                        <div class="form-group"><label for="subject">Sujet</label><input type="text" id="subject" required></div>
-                        <div class="form-group"><label for="message">Votre Message</label><textarea id="message" rows="5" placeholder="Parlez-nous de votre projet, de vos besoins..." required></textarea></div>
+                        <div class="form-group">
+                            <label for="subject">Sujet</label>
+                            <!-- AJOUT DE name="subject" -->
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Votre Message</label>
+                            <!-- AJOUT DE name="message" -->
+                            <textarea id="message" name="message" rows="5" placeholder="Parlez-nous de votre projet, de vos besoins..." required></textarea>
+                        </div>
                         <button type="submit" class="btn btn-primary form-submit-btn">Démarrer la Conversation</button>
                     </form>
                 </div>
