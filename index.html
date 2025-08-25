@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hydro Igran - Fourrage Hydroponique & Serres Intelligentes</title>
+    <title>Hydro Igran - Fourrage Hydroponique & Solutions de Production</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -30,15 +32,68 @@
     </nav>
 
     <header id="home" class="hero container reveal">
-        <h1>Hydro Igran – Fourrage Hydroponique & Serres Intelligentes</h1>
-        <p>Moins d'eau, plus de régularité – Production durable pour l'agriculture moderne</p>
+        <h1 class="reveal">Hydro Igran – Fourrage Hydroponique & Solutions de Production</h1>
+        <p>Moins d'eau, plus de régularité – Stabilisez vos coûts et sécurisez votre approvisionnement.</p>
         <div class="hero-actions">
-            <a href="#" class="btn btn-primary">Demander une Démo</a>
-            <a href="#" class="btn btn-secondary">Candidats aux Pilotes</a>
+            <a href="contact.html" class="btn btn-primary">Demander une Démo</a>
+            <a href="contact.html" class="btn btn-secondary">Candidats au Pilotes</a>
         </div>
     </header>
 
     <main>
+        <section class="proof-section">
+            <div class="container">
+                <h2 class="reveal">Validé par 50 éleveurs sur le terrain</h2>
+                <div class="proof-grid">
+                    
+                    <!-- Carte Statistique 1 -->
+                    <div class="proof-card reveal" style="transition-delay: 0.1s;">
+                        <div class="stat-header">
+                            <i class="fas fa-truck-loading"></i>
+                            <h3>Problèmes d'Approvisionnement</h3>
+                        </div>
+                        <div class="stat-visual">
+                            <canvas id="statChart1"></canvas>
+                            <p class="proof-stat" data-target="82">0%</p>
+                        </div>
+                        <p class="proof-text">Ont eu des difficultés à s'approvisionner en aliment cette année, principalement à cause de la volatilité des prix.</p>
+                    </div>
+                    
+                    <!-- Carte Statistique 2 -->
+                    <div class="proof-card reveal" style="transition-delay: 0.2s;">
+                        <div class="stat-header">
+                            <i class="fas fa-coins"></i>
+                            <h3>Le Coût Avant Tout</h3>
+                        </div>
+                        <div class="stat-visual">
+                            <canvas id="statChart2"></canvas>
+                            <p class="proof-stat" data-target="84">0%</p>
+                        </div>
+                        <p class="proof-text">Citent un "prix abordable" comme le critère N°1 pour choisir un aliment de qualité.</p>
+                    </div>
+
+                    <!-- Carte Statistique 3 -->
+                    <div class="proof-card reveal" style="transition-delay: 0.3s;">
+                        <div class="stat-header">
+                            <i class="fas fa-calendar-alt"></i>
+                            <h3>Besoin de Stabilité</h3>
+                        </div>
+                        <div class="stat-visual">
+                            <!-- Le canvas a été retiré. Le cercle sera créé en CSS. -->
+                            <p class="proof-stat text-stat" data-target="365">0 j/an</p>
+                        </div>
+                        <p class="proof-text">La production continue est le bénéfice le plus attendu de l'hydroponie (cité par 76% des sondés).</p>
+                    </div>
+                </div>
+
+                <!-- Citation mise en avant -->
+                <div class="quote-wrapper reveal" style="transition-delay: 0.4s;">
+                    <blockquote>« On veut que ce projet aille vite pour soulager la cherté de l’aliment. »</blockquote>
+                    <cite>– Éleveur participant à notre enquête, Région Marrakech-Safi</cite>
+                </div>
+            </div>
+        </section>
+
         <section id="features" class="container">
             <div class="features-grid">
                 <div class="feature-item reveal" style="transition-delay: 0.1s;"><i class="fas fa-tint"></i><h3>Eau Optimisée</h3><p>Réduction de 70% de consommation d'eau</p></div>
@@ -53,7 +108,7 @@
                 <div class="tech-grid">
                     <div class="tech-text reveal">
                         <h2>Découvrez notre technologie</h2>
-                        <a href="#" class="btn btn-primary">Voir la démo interactive</a>
+                        <a href="dashboard.html" class="btn btn-primary">Voir la démo interactive</a>
                     </div>
                     <div class="tech-image-wrapper reveal" style="transition-delay: 0.2s;">
                         <img src="assets/index/Macbook_Air_Mockup_1.png" alt="Tableau de bord de la technologie Hydro Igran sur un ordinateur portable" class="dashboard-img">
@@ -93,13 +148,56 @@
         </section>
     </main>
 
-    <footer class="footer">
+    <footer class="main-footer">
         <div class="container">
-            <div class="footer-content reveal">
-                 <div class="footer-item"><i class="fas fa-microchip"></i><span>Capteurs ESP32</span></div>
-                 <div class="footer-item"><i class="fas fa-globe"></i><span>Application web</span></div>
-                 <div class="footer-item"><i class="fas fa-drafting-compass"></i><span>Design sanitaire</span></div>
+            
+            <!-- Section 1: Appel à l'action principal -->
+            <div class="footer-cta reveal">
+                <h2>Prêt à transformer votre production ?</h2>
+                <p>Stabilisez vos coûts, sécurisez votre approvisionnement et produisez plus avec moins.</p>
+                <a href="contact.html" class="btn btn-primary">Demander une Démo</a>
             </div>
+            
+            <!-- Section 2: Grille d'informations -->
+            <div class="footer-main">
+                <div class="footer-grid">
+                    <!-- Colonne 1: Marque & Mission -->
+                    <div class="footer-column">
+                        <a href="index.html" class="nav-logo">Hydro Igran</a>
+                        <p class="footer-mission">Notre promesse : moins d'eau, plus de certitude.</p>
+                        <div class="footer-socials">
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        </div>
+                    </div>
+                    <!-- Colonne 2: Navigation -->
+                    <div class="footer-column">
+                        <h4>Plan du site</h4>
+                        <ul>
+                            <li><a href="index.html">Accueil</a></li>
+                            <li><a href="story.html">Notre Histoire</a></li>
+                            <li><a href="contact.html">Nous Contacter</a></li>
+                            <li><a href="dashboard.html">Tableau de Bord</a></li>
+                        </ul>
+                    </div>
+                    <!-- Colonne 3: Notre Technologie -->
+                    <div class="footer-column">
+                        <h4>Notre Technologie</h4>
+                        <ul>
+                            <li><i class="fas fa-microchip"></i> Capteurs ESP32</li>
+                            <li><i class="fas fa-globe"></i> Application Web</li>
+                            <li><i class="fas fa-drafting-compass"></i> Design Sanitaire</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Copyright -->
+            <div class="footer-bottom">
+                <p>&copy; 2025 Hydro Igran. Tous droits réservés.</p>
+            </div>
+            
         </div>
     </footer>
     

@@ -53,4 +53,107 @@ document.addEventListener("DOMContentLoaded", function() {
             navToggle.classList.toggle('active');
         });
     }
+
+    // ▼▼▼ REMPLACEZ L'ANCIEN BLOC "2B" PAR CELUI-CI DANS script.js ▼▼▼
+
+    // ==========================================================================
+    // 2B. ANIMATION DES STATISTIQUES (Version Corrigée et Améliorée)
+    // ==========================================================================
+    const statCards = document.querySelectorAll('.proof-card');
+    if (statCards.length > 0) {
+        // On définit les couleurs directement ici pour plus de fiabilité
+        const primaryGreen = '#34A853'; 
+        const borderGray = '#e6ebf1';
+
+        const statObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const card = entry.target;
+                    const statElement = card.querySelector('.proof-stat');
+                    const target = parseInt(statElement.dataset.target);
+
+                    // --- 1. Animation du Compteur ---
+                    let current = 0;
+                    const increment = target / 100;
+
+                    const updateCounter = () => {
+                        if (current < target) {
+                            current += increment;
+                            const displayValue = Math.ceil(current);
+                            statElement.textContent = statElement.classList.contains('text-stat') ? `${displayValue} j/an` : `${displayValue}%`;
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            statElement.textContent = statElement.classList.contains('text-stat') ? `${target} j/an` : `${target}%`;
+                        }
+                    };
+                    updateCounter();
+
+                    // --- 2. Animation du Graphique Circulaire ---
+                    const canvas = card.querySelector('canvas');
+                    if (canvas) {
+                        new Chart(canvas.getContext('2d'), {
+                            type: 'doughnut',
+                            data: {
+                                datasets: [{
+                                    data: [target, 100 - target],
+                                    backgroundColor: [primaryGreen, borderGray],
+                                    borderWidth: 0,
+                                    borderRadius: 5,
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                cutout: '80%',
+                                plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                                animation: {
+                                    animateRotate: true,
+                                    duration: 1500,
+                                    onComplete: () => {
+                                        // On fait apparaître le canvas en fondu à la fin de l'animation
+                                        canvas.style.opacity = 1;
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    
+                    observer.unobserve(card); // Animer une seule fois
+                }
+            });
+        }, { threshold: 0.6 }); // On augmente un peu le seuil pour être sûr
+
+        statCards.forEach(card => {
+            statObserver.observe(card);
+        });
+    }
+
+    // ▲▲▲ FIN DU BLOC DE REMPLACEMENT ▲▲▲
+
+    // ▼▼▼ AJOUTEZ CE BLOC DANS votre script.js ▼▼▼
+
+    // ==========================================================================
+    // 5. LOGIQUE INTERACTIVE POUR LA PAGE CONTACT
+    // ==========================================================================
+    const contactPathBtns = document.querySelectorAll('.contact-path-btn');
+    const subjectInput = document.getElementById('subject');
+
+    if (contactPathBtns.length > 0 && subjectInput) {
+        // Pré-remplir le sujet avec le bouton actif par défaut
+        subjectInput.value = document.querySelector('.contact-path-btn.active').dataset.subject;
+
+        contactPathBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Gérer le style du bouton actif
+                contactPathBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Mettre à jour la valeur du champ "Sujet"
+                subjectInput.value = this.dataset.subject;
+            });
+        });
+    }
+
+    // ▲▲▲ FIN DU BLOC À AJOUTER ▲▲▲
+
 });
+
