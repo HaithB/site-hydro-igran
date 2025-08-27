@@ -1297,3 +1297,21 @@ body:not(.dashboard-body) main > section:last-of-type {
 }
 
 /* ▲▲▲ FIN DU BLOC CSS À AJOUTER ▲▲▲ */
+
+/* ▼▼▼ AJOUTEZ CE BLOC À LA FIN DE style.css ▼▼▼ */
+
+/* --- Style pour l'attribution dans le footer --- */
+.footer-bottom .attribution {
+    font-size: 0.8rem;
+    margin-top: 10px;
+    color: var(--medium-gray);
+}
+.footer-bottom .attribution a {
+    color: var(--medium-gray);
+    text-decoration: none;
+}
+.footer-bottom .attribution a:hover {
+    text-decoration: underline;
+}
+
+/* ▲▲▲ FIN DU BLOC À AJOUTER ▲▲▲ */
