@@ -155,5 +155,77 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // ▲▲▲ FIN DU BLOC À AJOUTER ▲▲▲
 
+    // ==========================================================================
+    // 6. LOGIQUE DU PRODUCT TOUR INTERACTIF
+    // ==========================================================================
+    const tourNavItems = document.querySelectorAll('.feature-tour-item');
+    const tourImages = document.querySelectorAll('.tech-image-wrapper img');
+
+    if (tourNavItems.length > 0 && tourImages.length > 0) {
+        tourNavItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const targetId = this.dataset.target;
+
+                // Gérer les styles des boutons de navigation
+                tourNavItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+
+                // Gérer l'affichage des images
+                tourImages.forEach(img => {
+                    if (img.dataset.id === targetId) {
+                        img.classList.add('active');
+                    } else {
+                        img.classList.remove('active');
+                    }
+                });
+            });
+        });
+    }
+
+    // ==========================================================================
+    // 7. LOGIQUE DE LA SECTION INTERACTIVE "COMMENT ÇA MARCHE"
+    // ==========================================================================
+    const processNavBtns = document.querySelectorAll('.process-step-btn');
+    const processContents = document.querySelectorAll('.process-content');
+
+    if (processNavBtns.length > 0 && processContents.length > 0) {
+        processNavBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const step = this.dataset.step;
+
+                // Gérer les boutons
+                processNavBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // Gérer les panneaux de contenu
+                processContents.forEach(content => {
+                    if (content.dataset.step === step) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Gestion responsive : sur mobile, on cache/montre différemment
+        if (window.innerWidth <= 768) {
+            processNavBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const step = this.dataset.step;
+                    // On cache tous les contenus
+                    processContents.forEach(c => c.style.display = 'none');
+                    // On affiche le bon
+                    const activeContent = document.querySelector(`.process-content[data-step='${step}']`);
+                    if(activeContent) activeContent.style.display = 'grid';
+                });
+            });
+            // Affiche le premier contenu par défaut sur mobile
+            if(document.querySelector('.process-content[data-step="1"]')) {
+                document.querySelector('.process-content[data-step="1"]').style.display = 'grid';
+            }
+        }
+    }
+
 });
 
